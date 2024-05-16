@@ -1,12 +1,23 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:filamentize2/assets/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-class UseCouponPage extends StatelessWidget {
-  const UseCouponPage({super.key});
+class UseCouponPage extends StatefulWidget {
+  final QueryDocumentSnapshot<Map<String, dynamic>> coupon;
+  const UseCouponPage({super.key, required this.coupon});
+
+  @override
+  State<UseCouponPage> createState() => _UseCouponPageState();
+}
+
+class _UseCouponPageState extends State<UseCouponPage> {
+  // current user
+  final currentUser = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +30,11 @@ class UseCouponPage extends StatelessWidget {
             children: [
               // coupon slip
               Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: ColorsAsset.white,
                     borderRadius: BorderRadius.all(Radius.circular(12))),
-                padding: EdgeInsets.symmetric(vertical: 13, horizontal: 10),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 13, horizontal: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -31,9 +43,9 @@ class UseCouponPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         // icon
-                        Icon(Icons.food_bank_outlined, size: 88),
+                        const Icon(Icons.food_bank_outlined, size: 88),
 
-                        SizedBox(width: 25),
+                        const SizedBox(width: 25),
 
                         // name + detail
                         Column(
@@ -41,15 +53,20 @@ class UseCouponPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             // name
-                            Text("Free Meal",
-                                style: GoogleFonts.montserrat(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
-                                    height: 1)),
+                            SizedBox(
+                              width: 150,
+                              child: Text(widget.coupon["title"],
+                                  style: GoogleFonts.montserrat(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
+                                      height: 1)),
+                            ),
+
+                            const SizedBox(height: 5),
 
                             // detail
                             Text(
-                              "Bonchon",
+                              widget.coupon["place"],
                               style: GoogleFonts.montserrat(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,
@@ -60,27 +77,31 @@ class UseCouponPage extends StatelessWidget {
                       ],
                     ),
 
-                    SizedBox(height: 25),
+                    const SizedBox(height: 25),
 
                     // conditions
                     Container(
-                      padding: EdgeInsets.only(left: 27),
+                      padding: const EdgeInsets.only(left: 27),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           // header
                           Text(
-                            "Get 1 Free Meal",
+                            "Get ${widget.coupon["title"]}",
                             style: GoogleFonts.montserrat(
                                 fontSize: 14, fontWeight: FontWeight.w600),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
 
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
 
                           // descriptions
-                          Text("- Redeemable at all Bonchon in Thailand",
+                          Text(
+                              "- Redeemable at all ${widget.coupon["place"]} in Thailand",
                               style: GoogleFonts.montserrat(
-                                  fontSize: 12, fontWeight: FontWeight.w500)),
+                                  fontSize: 12, fontWeight: FontWeight.w500),
+                              maxLines: 2),
 
                           Text(
                             "- Not valid with any other discount and promotions.",
@@ -95,34 +116,45 @@ class UseCouponPage extends StatelessWidget {
                       ),
                     ),
 
-                    SizedBox(height: 35),
+                    const SizedBox(height: 35),
 
                     // divider
-                    Divider(),
+                    const Divider(),
 
-                    SizedBox(height: 25),
+                    const SizedBox(height: 25),
 
                     // qr code
                     QrImageView(
-                        data: "1234567890",
+                        data: widget.coupon.id,
                         version: QrVersions.auto,
                         size: 125),
 
-                    SizedBox(height: 25)
+                    const SizedBox(height: 25)
                   ],
                 ),
               ),
 
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
 
               // dismiss
-              Container(
-                padding: EdgeInsets.all(25),
-                decoration: BoxDecoration(
-                    color: ColorsAsset.white, shape: BoxShape.circle),
-                child: Icon(
-                  Icons.close,
-                  size: 30,
+              GestureDetector(
+                onTap: () async {
+                  FirebaseFirestore.instance
+                      .collection("Users")
+                      .doc(currentUser!.email)
+                      .collection("myCoupons")
+                      .doc(widget.coupon.id)
+                      .delete();
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(25),
+                  decoration: const BoxDecoration(
+                      color: ColorsAsset.white, shape: BoxShape.circle),
+                  child: const Icon(
+                    Icons.close,
+                    size: 30,
+                  ),
                 ),
               )
             ],

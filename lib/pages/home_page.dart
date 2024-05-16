@@ -1,6 +1,8 @@
 import 'package:filamentize2/assets/colors.dart';
 import 'package:filamentize2/components/my_button.dart';
+import 'package:filamentize2/pages/addDevice_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatelessWidget {
@@ -12,14 +14,14 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Image.asset("images/logo.png", width: 39, height: 39),
-        actions: [Icon(Icons.add, size: 29), SizedBox(width: 10)],
+        actions: const [Icon(Icons.add, size: 29), SizedBox(width: 10)],
       ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 23, right: 23, top: 15),
           child: Column(
             children: [
-              SizedBox(height: 25),
+              const SizedBox(height: 25),
 
               // no device yet + image
               Column(
@@ -32,7 +34,7 @@ class HomePage extends StatelessWidget {
                     height: 229,
                   ),
 
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
 
                   // no device yet
                   Text("No Device Yet",
@@ -43,16 +45,22 @@ class HomePage extends StatelessWidget {
                 ],
               ),
 
-              SizedBox(height: 39),
+              const SizedBox(height: 39),
 
               // add button
-              MyButton(
-                text: "Add",
-                color: ColorsAsset.green,
-                textColor: ColorsAsset.white,
-                iconData: Icons.add,
-                iconColor: ColorsAsset.white,
-                sizedBox: 5,
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => AddDevicePage()));
+                },
+                child: MyButton(
+                  text: "Add",
+                  color: ColorsAsset.green,
+                  textColor: ColorsAsset.white,
+                  iconData: Icons.add,
+                  iconColor: ColorsAsset.white,
+                  sizedBox: 5,
+                ),
               )
             ],
           ),

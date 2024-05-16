@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "411411785465",
+    "project_id": "reallyfilamentize",
+    "storage_bucket": "reallyfilamentize.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:411411785465:android:92a49cb6f87d65bd7c6428",
+        "android_client_info": {
+          "package_name": "com.example.filamentize2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLfXelUJt8ivFYmwPkFMsYLo6TatoHjhM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

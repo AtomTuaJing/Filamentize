@@ -3,15 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MyCoupon extends StatelessWidget {
-  const MyCoupon({super.key});
+  final String title;
+  final String place;
+  const MyCoupon({super.key, required this.title, required this.place});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 355,
       height: 96,
-      margin: EdgeInsets.only(bottom: 15),
-      decoration: BoxDecoration(
+      margin: const EdgeInsets.only(bottom: 15),
+      decoration: const BoxDecoration(
         color: ColorsAsset.green,
         borderRadius: BorderRadius.all(Radius.circular(12)),
       ),
@@ -19,44 +21,58 @@ class MyCoupon extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const SizedBox(width: 10),
           // logo
-          Icon(
-            Icons.food_bank_outlined,
-            size: 60,
-            color: ColorsAsset.white,
+          const SizedBox(
+            width: 60,
+            child: Icon(
+              Icons.food_bank_outlined,
+              size: 60,
+              color: ColorsAsset.white,
+            ),
           ),
 
-          SizedBox(width: 25),
+          const SizedBox(width: 20),
 
           // dashed line
-          VerticalDivider(
+          const VerticalDivider(
             color: ColorsAsset.white,
           ),
 
-          SizedBox(width: 25),
+          const SizedBox(width: 25),
 
           // coupon name + detail
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // name
-              Text("Free Meal",
+          SizedBox(
+            width: 150,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // name
+                Text(
+                  title,
                   style: GoogleFonts.montserrat(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
-                      color: ColorsAsset.white)),
-
-              // detail
-              Text("Bonchon",
-                  style: GoogleFonts.montserrat(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
                       color: ColorsAsset.white,
-                      height: 0.5)),
+                      height: 1),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
 
-              SizedBox(height: 8)
-            ],
+                const SizedBox(height: 10),
+
+                // detail
+                Text(place,
+                    style: GoogleFonts.montserrat(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: ColorsAsset.white,
+                        height: 0.5)),
+
+                const SizedBox(height: 8)
+              ],
+            ),
           )
         ],
       ),

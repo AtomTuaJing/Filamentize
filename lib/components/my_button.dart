@@ -22,18 +22,21 @@ class MyButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(50)), color: color),
+          borderRadius: const BorderRadius.all(Radius.circular(50)),
+          color: color),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // icon
           iconData != null
               ? Icon(iconData, color: iconColor)
-              : SizedBox(width: 0),
+              : const SizedBox(width: 0),
 
-          sizedBox != null ? SizedBox(width: sizedBox) : SizedBox(width: 0),
+          sizedBox != null
+              ? SizedBox(width: sizedBox)
+              : const SizedBox(width: 0),
 
           // text
           Text(text,

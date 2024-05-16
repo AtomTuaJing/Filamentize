@@ -1,14 +1,12 @@
-import "package:filamentize2/pages/addDevice_page.dart";
-import "package:filamentize2/pages/connectDevice_page.dart";
-import "package:filamentize2/pages/coupons_page.dart";
-import "package:filamentize2/pages/home_page_connected.dart";
-import "package:filamentize2/pages/useCoupon_page.dart";
-import "package:filamentize2/services/navigation.dart";
-import "package:filamentize2/services/signIn_or_signUp.dart";
+import "package:filamentize2/firebase_options.dart";
+import "package:filamentize2/services/auth.dart";
+import "package:firebase_core/firebase_core.dart";
 import "package:flutter/material.dart";
 
-void main() {
-  runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -16,9 +14,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Navigation(),
+      home: Auth(),
     );
   }
 }

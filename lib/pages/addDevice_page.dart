@@ -13,8 +13,13 @@ class AddDevicePage extends StatelessWidget {
         title: Text("Add Device",
             style: GoogleFonts.montserrat(
                 fontSize: 20, fontWeight: FontWeight.w600)),
-        leading: Icon(Icons.west),
-        actions: [Icon(Icons.qr_code_scanner), SizedBox(width: 15)],
+        leading: IconButton(
+          icon: const Icon(Icons.west),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        actions: const [Icon(Icons.qr_code_scanner), SizedBox(width: 15)],
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 55, top: 15),
@@ -24,7 +29,7 @@ class AddDevicePage extends StatelessWidget {
             // scanning image
             Image.asset("images/scanning.png", width: 248, height: 254),
 
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
 
             // scanning for device text
             Text("Scanning For Device",

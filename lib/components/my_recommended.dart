@@ -1,20 +1,105 @@
 import 'package:filamentize2/assets/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MyRecommended extends StatelessWidget {
-  final int number;
-  const MyRecommended({super.key, required this.number});
+  final String title;
+  final String place;
+  final String price;
+  final String type;
+  const MyRecommended(
+      {super.key,
+      required this.title,
+      required this.place,
+      required this.price,
+      required this.type});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 319,
-      height: 183,
-      margin: EdgeInsets.symmetric(horizontal: 2.5),
-      decoration: BoxDecoration(
-          color: ColorsAsset.red,
-          borderRadius: BorderRadius.all(Radius.circular(12))),
-      child: Text(number.toString()),
+      margin: const EdgeInsets.symmetric(horizontal: 2.5),
+      decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+          color: Colors.white),
+      child: Column(
+        children: [
+          // coupon image + tag
+          Stack(
+            children: [
+              // image
+              Image.asset("images/filamentizeMachine.png",
+                  width: 296, height: 133),
+
+              // tag
+              Padding(
+                padding: const EdgeInsets.only(left: 7, top: 8),
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+                  decoration: BoxDecoration(
+                      color: ColorsAsset.white,
+                      borderRadius: BorderRadius.circular(4)),
+                  child: Text(
+                    type,
+                    style: GoogleFonts.montserrat(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
+                  ),
+                ),
+              )
+            ],
+          ),
+
+          // coupon name / description + price
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+              decoration: const BoxDecoration(
+                  color: ColorsAsset.grey,
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(7),
+                      bottomRight: Radius.circular(7))),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // name + description
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(title,
+                          style: GoogleFonts.montserrat(
+                              fontSize: 15, fontWeight: FontWeight.bold)),
+                      Text(place,
+                          style: GoogleFonts.montserrat(
+                              fontSize: 12, fontWeight: FontWeight.w600))
+                    ],
+                  ),
+
+                  // price
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      // text
+                      Text(
+                        price,
+                        style: GoogleFonts.montserrat(
+                            fontSize: 20, fontWeight: FontWeight.w600),
+                      ),
+
+                      // icon
+                      const Icon(Icons.account_balance_wallet_outlined,
+                          size: 29)
+                    ],
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

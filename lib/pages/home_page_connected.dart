@@ -3,12 +3,15 @@ import 'package:filamentize2/components/my_button.dart';
 import 'package:filamentize2/components/my_iconbutton.dart';
 import 'package:filamentize2/components/my_slider.dart';
 import 'package:filamentize2/components/my_temp.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomePageConnected extends StatefulWidget {
-  const HomePageConnected({super.key});
+  final Function()? toggleFilamentize;
+  const HomePageConnected({super.key, required this.toggleFilamentize});
 
   @override
   State<HomePageConnected> createState() => _HomePageConnectedState();
@@ -17,6 +20,10 @@ class HomePageConnected extends StatefulWidget {
 class _HomePageConnectedState extends State<HomePageConnected> {
   double fanOne = 0;
   double fanTwo = 0;
+  double spoolMotor = 0;
+  double extruder = 0;
+  double stepper = 0;
+  double vibrator = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -136,10 +143,193 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                         // icon button
                         Column(
                           children: [
-                            MyIconButton(
-                              icon: Icons.device_thermostat,
-                              iconSize: 30,
-                              rectSize: 44,
+                            GestureDetector(
+                              onTap: () {
+                                showModalBottomSheet(
+                                    backgroundColor: ColorsAsset.white,
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return Container(
+                                          width: double.infinity,
+                                          height: 463,
+                                          child: Column(
+                                            children: [
+                                              SizedBox(height: 30),
+                                              // temperature header
+                                              Text("Temperature",
+                                                  style: GoogleFonts.montserrat(
+                                                      fontSize: 24,
+                                                      fontWeight:
+                                                          FontWeight.w600)),
+
+                                              SizedBox(height: 36),
+
+                                              // temp 1 set
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  // my icon button
+                                                  Column(
+                                                    children: [
+                                                      // icon button
+                                                      MyIconButton(
+                                                          rectSize: 59,
+                                                          iconSize: 40,
+                                                          icon:
+                                                              Icons.thermostat),
+
+                                                      // temperature text
+                                                      Text("temperature 1",
+                                                          style: GoogleFonts
+                                                              .montserrat(
+                                                                  fontSize: 16,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600))
+                                                    ],
+                                                  ),
+
+                                                  SizedBox(width: 50),
+
+                                                  // set temp
+                                                  Column(
+                                                    children: [
+                                                      SizedBox(height: 10),
+                                                      // real time temp
+                                                      MyTemp(
+                                                          rlTemp: 126,
+                                                          setTemp: 500),
+
+                                                      // set temp button
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(top: 10),
+                                                        child: Container(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      25,
+                                                                  vertical: 2),
+                                                          decoration: BoxDecoration(
+                                                              color: ColorsAsset
+                                                                  .littleGrey,
+                                                              borderRadius: BorderRadius
+                                                                  .all(Radius
+                                                                      .circular(
+                                                                          12))),
+                                                          child: Row(
+                                                            children: [
+                                                              // icon
+                                                              Icon(Icons
+                                                                  .settings_outlined),
+
+                                                              // set text
+                                                              Text("Set",
+                                                                  style: GoogleFonts.montserrat(
+                                                                      fontSize:
+                                                                          16,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600))
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+
+                                              SizedBox(height: 53),
+
+                                              // temp 2 set
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  // my icon button
+                                                  Column(
+                                                    children: [
+                                                      // icon button
+                                                      MyIconButton(
+                                                          rectSize: 59,
+                                                          iconSize: 40,
+                                                          icon:
+                                                              Icons.thermostat),
+
+                                                      // temperature text
+                                                      Text("temperature 2",
+                                                          style: GoogleFonts
+                                                              .montserrat(
+                                                                  fontSize: 16,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600))
+                                                    ],
+                                                  ),
+
+                                                  SizedBox(width: 40),
+
+                                                  // set temp
+                                                  Column(
+                                                    children: [
+                                                      SizedBox(height: 10),
+                                                      // real time temp
+                                                      MyTemp(
+                                                          rlTemp: 132,
+                                                          setTemp: 500),
+
+                                                      // set temp button
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(top: 10),
+                                                        child: Container(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      25,
+                                                                  vertical: 2),
+                                                          decoration: BoxDecoration(
+                                                              color: ColorsAsset
+                                                                  .littleGrey,
+                                                              borderRadius: BorderRadius
+                                                                  .all(Radius
+                                                                      .circular(
+                                                                          12))),
+                                                          child: Row(
+                                                            children: [
+                                                              // icon
+                                                              Icon(Icons
+                                                                  .settings_outlined),
+
+                                                              // set text
+                                                              Text("Set",
+                                                                  style: GoogleFonts.montserrat(
+                                                                      fontSize:
+                                                                          16,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600))
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                          ));
+                                    });
+                              },
+                              child: MyIconButton(
+                                icon: Icons.device_thermostat,
+                                iconSize: 30,
+                                rectSize: 44,
+                              ),
                             ),
                             Text("Temperature",
                                 style: GoogleFonts.montserrat(
@@ -230,10 +420,94 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                           padding: const EdgeInsets.only(right: 3),
                           child: Column(
                             children: [
-                              MyIconButton(
-                                  rectSize: 44,
-                                  iconSize: 30,
-                                  icon: Icons.wind_power),
+                              GestureDetector(
+                                onTap: () {
+                                  showModalBottomSheet(
+                                      backgroundColor: ColorsAsset.white,
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return Container(
+                                          height: 350,
+                                          width: double.infinity,
+                                          child: Column(
+                                            children: [
+                                              SizedBox(height: 30),
+                                              // cooling fans
+                                              Text("Cooling Fans",
+                                                  style: GoogleFonts.montserrat(
+                                                      fontSize: 24,
+                                                      fontWeight:
+                                                          FontWeight.w600)),
+
+                                              SizedBox(height: 38),
+
+                                              // cooling fans stat
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  // icon button 1
+                                                  Column(
+                                                    children: [
+                                                      MyIconButton(
+                                                          rectSize: 50,
+                                                          iconSize: 35,
+                                                          icon:
+                                                              Icons.wind_power),
+                                                      Text("Cooling Fan 1",
+                                                          style: GoogleFonts
+                                                              .montserrat(
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600))
+                                                    ],
+                                                  ),
+
+                                                  SizedBox(width: 5),
+
+                                                  // slider 1
+                                                  MySlider(
+                                                      sliderValue: fanOne,
+                                                      isRotate: true),
+
+                                                  // slider 2
+                                                  MySlider(
+                                                    sliderValue: fanTwo,
+                                                    isRotate: true,
+                                                  ),
+
+                                                  SizedBox(width: 5),
+
+                                                  // icon button 2
+                                                  Column(
+                                                    children: [
+                                                      MyIconButton(
+                                                          rectSize: 50,
+                                                          iconSize: 35,
+                                                          icon:
+                                                              Icons.wind_power),
+                                                      Text("Cooling Fan 2",
+                                                          style: GoogleFonts
+                                                              .montserrat(
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600))
+                                                    ],
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        );
+                                      });
+                                },
+                                child: MyIconButton(
+                                    rectSize: 44,
+                                    iconSize: 30,
+                                    icon: Icons.wind_power),
+                              ),
                               Text("Cooling Fans",
                                   style: GoogleFonts.montserrat(
                                       fontSize: 10,
@@ -248,7 +522,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                             children: [
                               SizedBox(height: 5),
                               // fan slider 1
-                              MySlider(sliderValue: fanOne),
+                              MySlider(sliderValue: fanOne, isRotate: false),
 
                               SizedBox(height: 5),
 
@@ -268,7 +542,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                             children: [
                               SizedBox(height: 5),
                               // fan slider 1
-                              MySlider(sliderValue: fanOne),
+                              MySlider(sliderValue: fanOne, isRotate: false),
 
                               SizedBox(height: 5),
 
@@ -292,8 +566,194 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                         // icon button
                         Column(
                           children: [
-                            MyIconButton(
-                                rectSize: 44, iconSize: 30, icon: Icons.speed),
+                            GestureDetector(
+                              onTap: () {
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) {
+                                      return Container(
+                                        width: double.infinity,
+                                        height: 550,
+                                        child: Column(
+                                          children: [
+                                            SizedBox(height: 30),
+                                            // Speed Mode
+                                            Text("Speed Mode",
+                                                style: GoogleFonts.montserrat(
+                                                    fontSize: 24,
+                                                    fontWeight:
+                                                        FontWeight.w600)),
+
+                                            SizedBox(height: 15),
+
+                                            // spool motor
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                // icon button
+                                                Column(
+                                                  children: [
+                                                    // icon
+                                                    MyIconButton(
+                                                        rectSize: 50,
+                                                        iconSize: 36,
+                                                        icon: Icons
+                                                            .motion_photos_on_outlined),
+                                                    // name
+                                                    Text("Spool Motor",
+                                                        style: GoogleFonts
+                                                            .montserrat(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600))
+                                                  ],
+                                                ),
+
+                                                SizedBox(width: 20),
+
+                                                // slider
+                                                MySlider(
+                                                    sliderValue: spoolMotor,
+                                                    isRotate: false,
+                                                    trackHeight: 50,
+                                                    sizedBoxWidth: 200),
+                                              ],
+                                            ),
+
+                                            SizedBox(height: 15),
+
+                                            // extruder
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                SizedBox(width: 13),
+                                                // icon button
+                                                Column(
+                                                  children: [
+                                                    // icon
+                                                    MyIconButton(
+                                                        rectSize: 50,
+                                                        iconSize: 36,
+                                                        icon: Icons
+                                                            .present_to_all_sharp),
+                                                    // name
+                                                    Text("Extruder",
+                                                        style: GoogleFonts
+                                                            .montserrat(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600))
+                                                  ],
+                                                ),
+
+                                                SizedBox(width: 32),
+
+                                                // slider
+                                                MySlider(
+                                                    sliderValue: extruder,
+                                                    isRotate: false,
+                                                    trackHeight: 50,
+                                                    sizedBoxWidth: 200),
+                                              ],
+                                            ),
+
+                                            SizedBox(height: 15),
+
+                                            // vibrator
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                SizedBox(width: 20),
+                                                // icon button
+                                                Column(
+                                                  children: [
+                                                    // icon
+                                                    MyIconButton(
+                                                        rectSize: 50,
+                                                        iconSize: 36,
+                                                        icon: Icons.cyclone),
+                                                    // name
+                                                    Text("Stepper",
+                                                        style: GoogleFonts
+                                                            .montserrat(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600))
+                                                  ],
+                                                ),
+
+                                                // slider
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 35),
+                                                  child: MySlider(
+                                                      sliderValue: spoolMotor,
+                                                      isRotate: false,
+                                                      trackHeight: 50,
+                                                      sizedBoxWidth: 200),
+                                                ),
+                                                SizedBox(width: 5)
+                                              ],
+                                            ),
+
+                                            SizedBox(height: 20),
+
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                SizedBox(width: 20),
+                                                // icon button
+                                                Column(
+                                                  children: [
+                                                    // icon
+                                                    MyIconButton(
+                                                        rectSize: 50,
+                                                        iconSize: 36,
+                                                        icon: Icons
+                                                            .vibration_outlined),
+                                                    // name
+                                                    Text("Vibrator",
+                                                        style: GoogleFonts
+                                                            .montserrat(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600))
+                                                  ],
+                                                ),
+
+                                                // slider
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 35),
+                                                  child: MySlider(
+                                                      sliderValue: vibrator,
+                                                      isRotate: false,
+                                                      trackHeight: 50,
+                                                      sizedBoxWidth: 200),
+                                                ),
+                                                SizedBox(width: 5)
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    });
+                              },
+                              child: MyIconButton(
+                                  rectSize: 44,
+                                  iconSize: 30,
+                                  icon: Icons.speed),
+                            ),
                             Text("Speed",
                                 style: GoogleFonts.montserrat(
                                     fontSize: 10, fontWeight: FontWeight.w600))
@@ -307,7 +767,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               // percent
-                              Text("60%",
+                              Text("${spoolMotor.round()}%",
                                   style: GoogleFonts.montserrat(
                                       fontSize: 24,
                                       fontWeight: FontWeight.bold)),
@@ -328,7 +788,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               // percent
-                              Text("80%",
+                              Text("${extruder.round()}%",
                                   style: GoogleFonts.montserrat(
                                       fontSize: 24,
                                       fontWeight: FontWeight.bold)),
@@ -349,7 +809,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               // percent
-                              Text("90%",
+                              Text("${stepper.round()}%",
                                   style: GoogleFonts.montserrat(
                                       fontSize: 24,
                                       fontWeight: FontWeight.bold)),
@@ -372,7 +832,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
 
               // start/stop + misc button
               Container(
-                padding: EdgeInsets.all(25),
+                padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(
                     color: ColorsAsset.grey,
                     borderRadius: BorderRadius.all(Radius.circular(12))),
@@ -382,7 +842,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                     // start/stop button
                     Container(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 68, vertical: 5),
+                          EdgeInsets.symmetric(horizontal: 68, vertical: 9),
                       decoration: BoxDecoration(
                           color: ColorsAsset.red,
                           borderRadius: BorderRadius.all(Radius.circular(6))),
@@ -394,12 +854,13 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                           Icon(
                             Icons.stop_outlined,
                             color: ColorsAsset.white,
+                            size: 28,
                           ),
 
                           // stop text
                           Text("Stop",
                               style: GoogleFonts.montserrat(
-                                  fontSize: 20,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                   color: ColorsAsset.white))
                         ],
@@ -410,14 +871,40 @@ class _HomePageConnectedState extends State<HomePageConnected> {
 
                     // misc button
                     Container(
-                      width: 45,
-                      padding: EdgeInsets.symmetric(horizontal: 7, vertical: 5),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(6)),
                         color: ColorsAsset.littleGrey,
                       ),
-                      child:
-                          Icon(Icons.menu, size: 30, color: ColorsAsset.white),
+                      child: PopupMenuButton(
+                        color: ColorsAsset.littleGrey,
+                        icon: Icon(Icons.more_horiz,
+                            size: 30, color: ColorsAsset.white),
+                        itemBuilder: (context) => [
+                          PopupMenuItem(
+                            child: Text(
+                              "Select Color",
+                              style: GoogleFonts.montserrat(
+                                  fontWeight: FontWeight.w600,
+                                  color: ColorsAsset.white),
+                            ),
+                            value: "switch color",
+                          ),
+                          PopupMenuItem(
+                            child: Text(
+                              "Switch Mode",
+                              style: GoogleFonts.montserrat(
+                                  fontWeight: FontWeight.w600,
+                                  color: ColorsAsset.white),
+                            ),
+                            value: "Switch Mode",
+                          )
+                        ],
+                        onSelected: (newValue) {
+                          if (newValue == "Switch Mode") {
+                            widget.toggleFilamentize!();
+                          }
+                        },
+                      ),
                     )
                   ],
                 ),
