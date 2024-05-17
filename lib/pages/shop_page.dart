@@ -72,6 +72,7 @@ class _ShopPageState extends State<ShopPage> {
       });
 
       Navigator.pop(context);
+      Navigator.pop(context);
     } else {
       Navigator.pop(context);
       Navigator.pop(context);
@@ -143,6 +144,7 @@ class _ShopPageState extends State<ShopPage> {
         "serialId": coupon.id
       });
 
+      Navigator.pop(context);
       Navigator.pop(context);
     } else {
       Navigator.pop(context);
@@ -277,7 +279,6 @@ class _ShopPageState extends State<ShopPage> {
                                                     onPressed: () async {
                                                       await buyRecommendedCoupon(
                                                           recommendedCoupon.id);
-                                                      Navigator.pop(context);
                                                     },
                                                     child: Text("Confirm",
                                                         style: GoogleFonts
@@ -395,7 +396,6 @@ class _ShopPageState extends State<ShopPage> {
                                                 onPressed: () async {
                                                   await buyBestDealCoupon(
                                                       coupon.id);
-                                                  Navigator.pop(context);
                                                 },
                                                 child: Text("Confirm",
                                                     style:

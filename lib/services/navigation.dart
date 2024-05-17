@@ -2,21 +2,27 @@ import 'package:filamentize2/assets/colors.dart';
 import 'package:filamentize2/pages/account_page.dart';
 import 'package:filamentize2/pages/home_page.dart';
 import 'package:filamentize2/pages/shop_page.dart';
+import 'package:filamentize2/services/filamentize_or_molding.dart';
 import 'package:flutter/material.dart';
 
 class Navigation extends StatefulWidget {
-  const Navigation({super.key});
+  final bool connectionState;
+  const Navigation({super.key, required this.connectionState});
 
   @override
   State<Navigation> createState() => _NavigationState();
 }
 
 class _NavigationState extends State<Navigation> {
-  List<Widget> tabs = [HomePage(), ShopPage(), AccountPage()];
   int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> tabs = [
+      widget.connectionState ? const FilamentizeOrMolding() : const HomePage(),
+      const ShopPage(),
+      const AccountPage()
+    ];
     return Scaffold(
       body: tabs[currentIndex],
       bottomNavigationBar: BottomNavigationBar(

@@ -1,13 +1,10 @@
 import 'package:filamentize2/assets/colors.dart';
-import 'package:filamentize2/components/my_button.dart';
 import 'package:filamentize2/components/my_iconbutton.dart';
 import 'package:filamentize2/components/my_slider.dart';
 import 'package:filamentize2/components/my_temp.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class HomePageConnected extends StatefulWidget {
   final Function()? toggleFilamentize;
@@ -29,10 +26,8 @@ class _HomePageConnectedState extends State<HomePageConnected> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        title: Image.asset("images/logo.png", width: 39, height: 39),
-        actions: [Icon(Icons.add, size: 29), SizedBox(width: 10)],
-      ),
+          centerTitle: true,
+          title: Image.asset("images/logo.png", width: 39, height: 39)),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 23, right: 23, top: 15),
@@ -40,8 +35,8 @@ class _HomePageConnectedState extends State<HomePageConnected> {
             children: [
               // filamentize image + status + selected color
               Container(
-                padding: EdgeInsets.all(20),
-                decoration: BoxDecoration(
+                padding: const EdgeInsets.all(20),
+                decoration: const BoxDecoration(
                     color: ColorsAsset.grey,
                     borderRadius: BorderRadius.all(Radius.circular(12))),
                 child: Column(
@@ -53,7 +48,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                         Image.asset("images/filamentizeMachine.png",
                             width: 96, height: 106),
 
-                        SizedBox(width: 20),
+                        const SizedBox(width: 20),
 
                         // divider
                         Container(
@@ -61,7 +56,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                             height: 60,
                             color: ColorsAsset.littleGrey),
 
-                        SizedBox(width: 20),
+                        const SizedBox(width: 20),
 
                         // status
                         Column(
@@ -73,13 +68,13 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                 Container(
                                   width: 20,
                                   height: 20,
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                       color: ColorsAsset.green,
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(2))),
                                 ),
 
-                                SizedBox(width: 2),
+                                const SizedBox(width: 2),
 
                                 // on/off text
                                 Text("Device On",
@@ -125,12 +120,13 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                 ),
               ),
 
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
 
               // stats
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 20),
-                decoration: BoxDecoration(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 5, vertical: 20),
+                decoration: const BoxDecoration(
                     color: ColorsAsset.grey,
                     borderRadius: BorderRadius.all(Radius.circular(12))),
                 child: Column(

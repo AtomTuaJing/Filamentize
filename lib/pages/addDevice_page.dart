@@ -1,9 +1,34 @@
 import 'package:filamentize2/assets/colors.dart';
+import 'package:filamentize2/pages/connectDevice_page.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class AddDevicePage extends StatelessWidget {
+class AddDevicePage extends StatefulWidget {
   const AddDevicePage({super.key});
+
+  @override
+  State<AddDevicePage> createState() => _AddDevicePageState();
+}
+
+class _AddDevicePageState extends State<AddDevicePage> {
+  @override
+  void initState() {
+    super.initState();
+    // scan for filamentize
+    FlutterBluePlus.startScan(timeout: const Duration(seconds: 10));
+    FlutterBluePlus.onScanResults.listen((results) {
+      if (results.isNotEmpty) {
+        var result = results.last;
+        if (result.advertisementData.advName.contains("Filamentize")) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ConnectDevicePage(device: result)));
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +40,8 @@ class AddDevicePage extends StatelessWidget {
                 fontSize: 20, fontWeight: FontWeight.w600)),
         leading: IconButton(
           icon: const Icon(Icons.west),
-          onPressed: () {
+          onPressed: () async {
+            await FlutterBluePlus.stopScan();
             Navigator.pop(context);
           },
         ),
