@@ -3,16 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MyMolding extends StatelessWidget {
-  const MyMolding({super.key});
+  final modelName;
+  final plastictype;
+  final plasticUsed;
+  final requiredTemp;
+  const MyMolding(
+      {super.key,
+      required this.modelName,
+      required this.plasticUsed,
+      required this.plastictype,
+      required this.requiredTemp});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 310,
-      height: 103,
-      decoration: BoxDecoration(
+      height: 109,
+      decoration: const BoxDecoration(
           color: ColorsAsset.grey,
           borderRadius: BorderRadius.all(Radius.circular(12))),
+      margin: const EdgeInsets.only(bottom: 15),
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Row(
@@ -20,46 +30,50 @@ class MyMolding extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // mold logo
-            Icon(Icons.catching_pokemon_outlined, size: 81),
+            const Icon(Icons.catching_pokemon_outlined, size: 81),
 
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
 
             // divider
-            VerticalDivider(),
+            const VerticalDivider(),
 
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
 
             // mold title + detail
-            Padding(
-              padding: const EdgeInsets.only(top: 5),
-              child: Column(
-                children: [
-                  // title
-                  Text("Pokeball",
-                      style: GoogleFonts.montserrat(
-                          fontSize: 20, fontWeight: FontWeight.bold)),
+            Column(
+              children: [
+                // title
+                Text(modelName,
+                    style: GoogleFonts.montserrat(
+                        fontSize: 20, fontWeight: FontWeight.bold)),
 
-                  // details
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // type
-                      Text("type : LDPE",
-                          style: GoogleFonts.montserrat(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: ColorsAsset.littleGrey)),
+                // details
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // type
+                    Text("type : $plastictype",
+                        style: GoogleFonts.montserrat(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: ColorsAsset.littleGrey)),
 
-                      // plastic usage
-                      Text("plastic : 540g",
-                          style: GoogleFonts.montserrat(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: ColorsAsset.littleGrey)),
-                    ],
-                  )
-                ],
-              ),
+                    // plastic usage
+                    Text("plastic : $plasticUsed",
+                        style: GoogleFonts.montserrat(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: ColorsAsset.littleGrey)),
+
+                    // temp
+                    Text("temp : $requiredTemp°C",
+                        style: GoogleFonts.montserrat(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: ColorsAsset.littleGrey)),
+                  ],
+                )
+              ],
             )
           ],
         ),

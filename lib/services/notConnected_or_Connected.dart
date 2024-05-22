@@ -1,9 +1,11 @@
 import 'package:filamentize2/pages/home_page.dart';
+import 'package:filamentize2/services/filamentizeData.dart';
 import 'package:filamentize2/services/filamentize_or_molding.dart';
 import 'package:filamentize2/services/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class NotConnectedOrConnected extends StatefulWidget {
   const NotConnectedOrConnected({super.key});

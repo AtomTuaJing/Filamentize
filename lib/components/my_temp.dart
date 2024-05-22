@@ -1,5 +1,4 @@
 import 'package:filamentize2/assets/colors.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -18,16 +17,16 @@ class MyTemp extends StatelessWidget {
             style: GoogleFonts.montserrat(
                 fontSize: 24, fontWeight: FontWeight.w600)),
 
-        SizedBox(width: 1),
+        const SizedBox(width: 1),
 
         // arrow ease
         Padding(
           padding: const EdgeInsets.only(bottom: 3),
           child: Row(
             children: [
-              Icon(Icons.east, size: 20, color: ColorsAsset.littleGrey),
+              const Icon(Icons.east, size: 20, color: ColorsAsset.littleGrey),
 
-              SizedBox(width: 1),
+              const SizedBox(width: 1),
 
               // set temp
               Text("${setTemp.toString()}°C",

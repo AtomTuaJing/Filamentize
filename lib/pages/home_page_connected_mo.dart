@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:filamentize2/assets/colors.dart';
 import 'package:filamentize2/components/my_button.dart';
 import 'package:filamentize2/components/my_iconbutton.dart';
 import 'package:filamentize2/components/my_molding.dart';
 import 'package:filamentize2/components/my_slider.dart';
 import 'package:filamentize2/components/my_temp.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -13,7 +15,13 @@ import 'package:popover/popover.dart';
 
 class HomePageConnectedMo extends StatefulWidget {
   final Function()? toggleFilamentize;
-  const HomePageConnectedMo({super.key, required this.toggleFilamentize});
+  final Function()? toggleStatus;
+  final String filamentizeStatus;
+  const HomePageConnectedMo(
+      {super.key,
+      required this.toggleFilamentize,
+      required this.toggleStatus,
+      required this.filamentizeStatus});
 
   @override
   State<HomePageConnectedMo> createState() => _HomePageConnectedMoState();
@@ -26,13 +34,18 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
   double extruder = 0;
   double stepper = 0;
 
+  // current user
+  final currentUser = FirebaseAuth.instance.currentUser;
+
+  var moldingModel = {"temp": "--", "type": "--"};
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Image.asset("images/logo.png", width: 39, height: 39),
-        actions: [Icon(Icons.add, size: 29), SizedBox(width: 10)],
+        actions: const [Icon(Icons.add, size: 29), SizedBox(width: 10)],
       ),
       body: SafeArea(
         child: Padding(
@@ -41,8 +54,8 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
             children: [
               // filamentize image + status + selected color
               Container(
-                padding: EdgeInsets.all(20),
-                decoration: BoxDecoration(
+                padding: const EdgeInsets.all(20),
+                decoration: const BoxDecoration(
                     color: ColorsAsset.grey,
                     borderRadius: BorderRadius.all(Radius.circular(12))),
                 child: Column(
@@ -54,7 +67,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                         Image.asset("images/filamentizeMachine.png",
                             width: 96, height: 106),
 
-                        SizedBox(width: 20),
+                        const SizedBox(width: 20),
 
                         // divider
                         Container(
@@ -62,7 +75,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                             height: 60,
                             color: ColorsAsset.littleGrey),
 
-                        SizedBox(width: 20),
+                        const SizedBox(width: 20),
 
                         // status
                         Column(
@@ -74,13 +87,13 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                 Container(
                                   width: 20,
                                   height: 20,
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                       color: ColorsAsset.green,
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(2))),
                                 ),
 
-                                SizedBox(width: 2),
+                                const SizedBox(width: 2),
 
                                 // on/off text
                                 Text("Device On",
@@ -126,12 +139,13 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                 ),
               ),
 
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
 
               // stats
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 20),
-                decoration: BoxDecoration(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 5, vertical: 20),
+                decoration: const BoxDecoration(
                     color: ColorsAsset.grey,
                     borderRadius: BorderRadius.all(Radius.circular(12))),
                 child: Column(
@@ -153,13 +167,13 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                       return Container(
                                           width: double.infinity,
                                           height: 522,
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                               horizontal: 25),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
-                                              SizedBox(height: 30),
+                                              const SizedBox(height: 30),
                                               // stats header
                                               Text("Stats",
                                                   style: GoogleFonts.montserrat(
@@ -167,10 +181,10 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                       fontWeight:
                                                           FontWeight.w600)),
 
-                                              SizedBox(height: 34),
+                                              const SizedBox(height: 34),
 
                                               // temp
-                                              Container(
+                                              SizedBox(
                                                 width: 350,
                                                 child: Row(
                                                   mainAxisAlignment:
@@ -181,7 +195,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                     Column(
                                                       children: [
                                                         // icon button
-                                                        MyIconButton(
+                                                        const MyIconButton(
                                                             rectSize: 51,
                                                             iconSize: 35,
                                                             icon: Icons
@@ -202,15 +216,16 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                     // temp 1
                                                     Column(
                                                       children: [
-                                                        SizedBox(
+                                                        const SizedBox(
                                                           height: 7,
                                                         ),
                                                         // temp
-                                                        MyTemp(
+                                                        const MyTemp(
                                                             rlTemp: 46,
                                                             setTemp: 500),
 
-                                                        SizedBox(height: 10),
+                                                        const SizedBox(
+                                                            height: 10),
 
                                                         // text
                                                         Text("temperature 1",
@@ -227,13 +242,15 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                     // temp 2
                                                     Column(
                                                       children: [
-                                                        SizedBox(height: 7),
+                                                        const SizedBox(
+                                                            height: 7),
                                                         // temp
-                                                        MyTemp(
+                                                        const MyTemp(
                                                             rlTemp: 57,
                                                             setTemp: 500),
 
-                                                        SizedBox(height: 10),
+                                                        const SizedBox(
+                                                            height: 10),
 
                                                         // text
                                                         Text("temperature 2",
@@ -250,10 +267,10 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                 ),
                                               ),
 
-                                              SizedBox(height: 35),
+                                              const SizedBox(height: 35),
 
                                               // cooling fans
-                                              Container(
+                                              SizedBox(
                                                 width: 350,
                                                 child: Row(
                                                   mainAxisAlignment:
@@ -266,7 +283,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                     Column(
                                                       children: [
                                                         // icon button
-                                                        MyIconButton(
+                                                        const MyIconButton(
                                                             rectSize: 51,
                                                             iconSize: 35,
                                                             icon: Icons
@@ -285,41 +302,43 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                       ],
                                                     ),
 
-                                                    SizedBox(width: 15),
+                                                    const SizedBox(width: 15),
 
                                                     // fan 1
                                                     MySlider(
                                                         sliderValue: fanOne,
                                                         isRotate: false,
-                                                        sizedBoxWidth: 100),
+                                                        sizedBoxWidth: 100,
+                                                        setFanSpeed: null),
 
-                                                    SizedBox(width: 10),
+                                                    const SizedBox(width: 10),
 
                                                     // fan 2
                                                     MySlider(
                                                         sliderValue: fanTwo,
                                                         isRotate: false,
-                                                        sizedBoxWidth: 100)
+                                                        sizedBoxWidth: 100,
+                                                        setFanSpeed: null)
                                                   ],
                                                 ),
                                               ),
 
-                                              SizedBox(height: 35),
+                                              const SizedBox(height: 35),
 
                                               // speed
-                                              Container(
+                                              SizedBox(
                                                 width: 350,
                                                 child: Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                   children: [
-                                                    SizedBox(width: 1),
+                                                    const SizedBox(width: 1),
                                                     // icon button
                                                     Column(
                                                       children: [
                                                         // icon button
-                                                        MyIconButton(
+                                                        const MyIconButton(
                                                             rectSize: 51,
                                                             iconSize: 35,
                                                             icon: Icons.speed),
@@ -337,7 +356,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                       ],
                                                     ),
 
-                                                    SizedBox(width: 5),
+                                                    const SizedBox(width: 5),
 
                                                     // spool motor
                                                     Column(
@@ -423,7 +442,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                           ));
                                     });
                               },
-                              child: MyIconButton(
+                              child: const MyIconButton(
                                 icon: Icons.perm_data_setting,
                                 iconSize: 30,
                                 rectSize: 44,
@@ -435,10 +454,10 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                           ],
                         ),
 
-                        SizedBox(width: 15),
+                        const SizedBox(width: 15),
 
                         // temp
-                        Container(
+                        SizedBox(
                           width: 80,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -457,10 +476,10 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                           ),
                         ),
 
-                        SizedBox(width: 4),
+                        const SizedBox(width: 4),
 
                         // fan
-                        Container(
+                        SizedBox(
                           width: 70,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -480,7 +499,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                         ),
 
                         // speed
-                        Container(
+                        SizedBox(
                           width: 70,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -501,7 +520,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                       ],
                     ),
 
-                    SizedBox(height: 32),
+                    const SizedBox(height: 32),
 
                     // speed
                     Row(
@@ -523,7 +542,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                             horizontal: 25),
                                         child: Column(
                                           children: [
-                                            SizedBox(height: 30),
+                                            const SizedBox(height: 30),
                                             // molding header
                                             Text("Molding",
                                                 style: GoogleFonts.montserrat(
@@ -531,45 +550,286 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                     fontWeight:
                                                         FontWeight.w600)),
 
-                                            SizedBox(height: 36),
+                                            const SizedBox(height: 36),
 
                                             // my molding
-                                            MyMolding(),
+                                            Expanded(
+                                              child: StreamBuilder(
+                                                  stream: FirebaseFirestore
+                                                      .instance
+                                                      .collection("Users")
+                                                      .doc(currentUser!.email)
+                                                      .collection("myMolding")
+                                                      .snapshots(),
+                                                  builder: (context, snapshot) {
+                                                    if (snapshot.hasData) {
+                                                      return ListView.builder(
+                                                          itemCount: snapshot
+                                                              .data!
+                                                              .docs
+                                                              .length,
+                                                          itemBuilder:
+                                                              (context, index) {
+                                                            final myMolding =
+                                                                snapshot.data!
+                                                                        .docs[
+                                                                    index];
+                                                            return GestureDetector(
+                                                              onTap: () {
+                                                                setState(() {
+                                                                  moldingModel[
+                                                                          "temp"] =
+                                                                      myMolding[
+                                                                          "temp"];
+                                                                  moldingModel[
+                                                                          "type"] =
+                                                                      myMolding[
+                                                                          "type"];
+                                                                });
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              child: MyMolding(
+                                                                modelName:
+                                                                    myMolding[
+                                                                        "name"],
+                                                                plastictype:
+                                                                    myMolding[
+                                                                        "type"],
+                                                                plasticUsed:
+                                                                    myMolding[
+                                                                        "used"],
+                                                                requiredTemp:
+                                                                    myMolding[
+                                                                        "temp"],
+                                                              ),
+                                                            );
+                                                          });
+                                                    } else if (snapshot
+                                                        .hasError) {
+                                                      Text(
+                                                          "error: ${snapshot.error}",
+                                                          style: GoogleFonts
+                                                              .montserrat(
+                                                                  fontSize: 24,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600));
+                                                    }
+                                                    return const Center(
+                                                        child:
+                                                            CircularProgressIndicator(
+                                                                color:
+                                                                    ColorsAsset
+                                                                        .green));
+                                                  }),
+                                            ),
 
-                                            SizedBox(height: 15),
+                                            const SizedBox(height: 15),
 
-                                            // add button
-                                            Container(
-                                              decoration: const BoxDecoration(
-                                                  color: ColorsAsset.grey,
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(12))),
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 30),
-                                              child: Center(
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    // add icon
-                                                    const Icon(Icons.add,
-                                                        size: 34),
+                                            GestureDetector(
+                                              onTap: () {
+                                                final modelNameController =
+                                                    TextEditingController();
+                                                final requiredTempController =
+                                                    TextEditingController();
+                                                final plasticUsageController =
+                                                    TextEditingController();
+                                                var plasticType = "PETE";
+                                                showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (context) =>
+                                                            AlertDialog(
+                                                              title: Text(
+                                                                  "Add Molding Model",
+                                                                  style: GoogleFonts.montserrat(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600)),
+                                                              content: StatefulBuilder(
+                                                                  builder: (context,
+                                                                      setState) {
+                                                                return SingleChildScrollView(
+                                                                  child:
+                                                                      SizedBox(
+                                                                    height: 250,
+                                                                    child:
+                                                                        Column(
+                                                                      children: [
+                                                                        // model name
+                                                                        TextField(
+                                                                          cursorColor:
+                                                                              ColorsAsset.green,
+                                                                          style: GoogleFonts.montserrat(
+                                                                              fontWeight: FontWeight.w600,
+                                                                              color: ColorsAsset.littleGrey),
+                                                                          controller:
+                                                                              modelNameController,
+                                                                          decoration: InputDecoration(
+                                                                              hintText: "Model name",
+                                                                              hintStyle: GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: ColorsAsset.littleGrey)),
+                                                                        ),
 
-                                                    // add
-                                                    Text(
-                                                      "Add",
-                                                      style: GoogleFonts
-                                                          .montserrat(
-                                                              fontSize: 24,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                    )
-                                                  ],
+                                                                        const SizedBox(
+                                                                            height:
+                                                                                15),
+
+                                                                        // required temp
+                                                                        TextField(
+                                                                          cursorColor:
+                                                                              ColorsAsset.green,
+                                                                          style: GoogleFonts.montserrat(
+                                                                              fontWeight: FontWeight.w600,
+                                                                              color: ColorsAsset.littleGrey),
+                                                                          controller:
+                                                                              requiredTempController,
+                                                                          decoration: InputDecoration(
+                                                                              hintText: "Required Temp",
+                                                                              hintStyle: GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: ColorsAsset.littleGrey)),
+                                                                        ),
+
+                                                                        const SizedBox(
+                                                                            height:
+                                                                                15),
+
+                                                                        // plastic usage
+                                                                        TextField(
+                                                                          cursorColor:
+                                                                              ColorsAsset.green,
+                                                                          style: GoogleFonts.montserrat(
+                                                                              fontWeight: FontWeight.w600,
+                                                                              color: ColorsAsset.littleGrey),
+                                                                          controller:
+                                                                              plasticUsageController,
+                                                                          decoration: InputDecoration(
+                                                                              hintText: "Plastic Usage",
+                                                                              hintStyle: GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: ColorsAsset.littleGrey)),
+                                                                        ),
+
+                                                                        const SizedBox(
+                                                                            height:
+                                                                                20),
+
+                                                                        // plastic type
+                                                                        Row(
+                                                                          children: [
+                                                                            // plastic type text
+                                                                            Text("Plastic Type : ",
+                                                                                style: GoogleFonts.montserrat(fontWeight: FontWeight.w600, fontSize: 18, color: ColorsAsset.littleGrey)),
+                                                                            // drop down menu
+                                                                            DropdownButton(
+                                                                                value: plasticType,
+                                                                                items: [
+                                                                                  DropdownMenuItem(value: "PETE", child: Text("PETE", style: GoogleFonts.montserrat(fontWeight: FontWeight.w600))),
+                                                                                  DropdownMenuItem(value: "HDPE", child: Text("HDPE", style: GoogleFonts.montserrat(fontWeight: FontWeight.w600))),
+                                                                                  DropdownMenuItem(value: "PVC", child: Text("PVC", style: GoogleFonts.montserrat(fontWeight: FontWeight.w600))),
+                                                                                  DropdownMenuItem(value: "LDPE", child: Text("LDPE", style: GoogleFonts.montserrat(fontWeight: FontWeight.w600))),
+                                                                                  DropdownMenuItem(value: "PP", child: Text("PP", style: GoogleFonts.montserrat(fontWeight: FontWeight.w600))),
+                                                                                  DropdownMenuItem(value: "PS", child: Text("PETE", style: GoogleFonts.montserrat(fontWeight: FontWeight.w600))),
+                                                                                ],
+                                                                                onChanged: (String? newValue) {
+                                                                                  setState(() {
+                                                                                    plasticType = newValue!;
+                                                                                  });
+                                                                                }),
+                                                                          ],
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              }),
+                                                              actions: [
+                                                                TextButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
+                                                                    child: Text(
+                                                                        "Cancel",
+                                                                        style: GoogleFonts
+                                                                            .montserrat(
+                                                                          fontWeight:
+                                                                              FontWeight.w600,
+                                                                        ))),
+                                                                TextButton(
+                                                                    onPressed:
+                                                                        () async {
+                                                                      showDialog(
+                                                                          context:
+                                                                              context,
+                                                                          builder: (context) =>
+                                                                              const Center(child: CircularProgressIndicator(color: ColorsAsset.green)));
+                                                                      await FirebaseFirestore
+                                                                          .instance
+                                                                          .collection(
+                                                                              "Users")
+                                                                          .doc(currentUser!
+                                                                              .email)
+                                                                          .collection(
+                                                                              "myMolding")
+                                                                          .add({
+                                                                        "name":
+                                                                            modelNameController.text,
+                                                                        "temp":
+                                                                            requiredTempController.text,
+                                                                        "type":
+                                                                            plasticType,
+                                                                        "used":
+                                                                            plasticUsageController.text
+                                                                      });
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
+                                                                    child: Text(
+                                                                        "OK",
+                                                                        style: GoogleFonts.montserrat(
+                                                                            fontWeight:
+                                                                                FontWeight.w600,
+                                                                            color: ColorsAsset.green))),
+                                                              ],
+                                                            ));
+                                              },
+                                              child: Container(
+                                                decoration: const BoxDecoration(
+                                                    color: ColorsAsset.grey,
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                12))),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 30),
+                                                child: Center(
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      // add icon
+                                                      const Icon(Icons.add,
+                                                          size: 34),
+
+                                                      // add
+                                                      Text(
+                                                        "Add",
+                                                        style: GoogleFonts
+                                                            .montserrat(
+                                                                fontSize: 24,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
-                                            )
+                                            ),
+                                            const SizedBox(height: 15)
                                           ],
                                         ),
                                       );
@@ -595,7 +855,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                             Column(
                               children: [
                                 // rl mold temp
-                                Text("103°C",
+                                Text("${moldingModel["temp"]}°C",
                                     style: GoogleFonts.montserrat(
                                         fontSize: 24,
                                         fontWeight: FontWeight.bold)),
@@ -616,7 +876,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                             Column(
                               children: [
                                 // rl mold temp
-                                Text("PETE",
+                                Text("${moldingModel["type"]}",
                                     style: GoogleFonts.montserrat(
                                         fontSize: 24,
                                         fontWeight: FontWeight.bold)),
@@ -630,7 +890,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                 ),
                               ],
                             ),
-                            SizedBox(width: 30),
+                            const SizedBox(width: 30),
                           ],
                         )
                       ],
@@ -651,63 +911,94 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // start/stop button
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 68, vertical: 9),
-                      decoration: const BoxDecoration(
-                          color: ColorsAsset.red,
-                          borderRadius: BorderRadius.all(Radius.circular(6))),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          // stop icon
-                          const Icon(
-                            Icons.stop_outlined,
-                            color: ColorsAsset.white,
-                            size: 28,
-                          ),
+                    GestureDetector(
+                        onTap: widget.toggleStatus,
+                        child: widget.filamentizeStatus == "On"
+                            ? Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 68, vertical: 9),
+                                decoration: const BoxDecoration(
+                                    color: ColorsAsset.red,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(6))),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    // stop icon
+                                    const Icon(
+                                      Icons.stop_outlined,
+                                      color: ColorsAsset.white,
+                                      size: 28,
+                                    ),
 
-                          // stop text
-                          Text("Stop",
-                              style: GoogleFonts.montserrat(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: ColorsAsset.white))
-                        ],
-                      ),
-                    ),
+                                    // stop text
+                                    Text("Stop",
+                                        style: GoogleFonts.montserrat(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                            color: ColorsAsset.white))
+                                  ],
+                                ),
+                              )
+                            : Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 68, vertical: 9),
+                                decoration: const BoxDecoration(
+                                    color: ColorsAsset.green,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(6))),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    // stop icon
+                                    const Icon(
+                                      Icons.play_arrow_outlined,
+                                      color: ColorsAsset.white,
+                                      size: 28,
+                                    ),
 
-                    SizedBox(width: 8),
+                                    // stop text
+                                    Text("Start",
+                                        style: GoogleFonts.montserrat(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                            color: ColorsAsset.white))
+                                  ],
+                                ),
+                              )),
+
+                    const SizedBox(width: 8),
 
                     // misc button
                     Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(6)),
                         color: ColorsAsset.littleGrey,
                       ),
                       child: PopupMenuButton(
                         color: ColorsAsset.littleGrey,
-                        icon: Icon(Icons.more_horiz,
+                        icon: const Icon(Icons.more_horiz,
                             size: 30, color: ColorsAsset.white),
                         itemBuilder: (context) => [
                           PopupMenuItem(
+                            value: "switch color",
                             child: Text(
                               "Select Color",
                               style: GoogleFonts.montserrat(
                                   fontWeight: FontWeight.w600,
                                   color: ColorsAsset.white),
                             ),
-                            value: "switch color",
                           ),
                           PopupMenuItem(
+                            value: "Switch Mode",
                             child: Text(
                               "Switch Mode",
                               style: GoogleFonts.montserrat(
                                   fontWeight: FontWeight.w600,
                                   color: ColorsAsset.white),
                             ),
-                            value: "Switch Mode",
                           )
                         ],
                         onSelected: (newValue) {

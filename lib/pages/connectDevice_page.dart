@@ -23,14 +23,18 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
 
   // map
   Map<String, dynamic> allBluetooth = {
+    "filamentizeStatus": null,
     "filamentizeOne": null,
     "filamentizeTwo": null,
     "filamentizeThree": null,
+    "filamentizeSetStatus": null,
+    "filamentizeSetMode": null,
     "coolingFan01": null,
     "coolingFan02": null,
     "temp01": null,
     "temp02": null,
     "spoolMotor": null,
+    "spoolReset": null,
     "stepper": null,
     "extruder": null,
     "vibrator": null,
@@ -53,6 +57,10 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
 
       // connect to device
       await filamentize.connect();
+
+      context
+          .read<FilamentizeData>()
+          .changeFilamentizeDevice(device: filamentize);
 
       // discover all services
       var services = await filamentize.discoverServices();
@@ -79,13 +87,19 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
               // read descriptor in string
               descriptor = utf8.decode(value);
             }
+            print(descriptor);
 
             // check if descriptor match any prefixes
 
+            // filamentize status notify
+            if (descriptor!.contains("filamentizeStatusNotify")) {
+              allBluetooth["filamentizeStatus"] = c;
+            }
             // filamentize notify one
-            if (descriptor!.contains("filamentizeOne")) {
+            else if (descriptor.contains("filamentizeOne")) {
               allBluetooth["filamentizeOne"] = c;
             }
+
             // filamentize notify two
             else if (descriptor.contains("filamentizeTwo")) {
               allBluetooth["filamentizeTwo"] = c;
@@ -94,6 +108,21 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
             // filamentize notify three
             else if (descriptor.contains("filamentizeThree")) {
               allBluetooth["filamentizeThree"] = c;
+            }
+
+            // filamentize set device mode write
+            else if (descriptor.contains("filamentizeStatusMode")) {
+              allBluetooth["filamentizeSetMode"] = c;
+            }
+
+            // filamentize set device status write
+            else if (descriptor.contains("filamentizeStatus")) {
+              allBluetooth["filamentizeSetStatus"] = c;
+            }
+
+            // filamentize set device status write
+            else if (descriptor.contains("spoolReset")) {
+              allBluetooth["spoolReset"] = c;
             }
 
             // spool motor write
@@ -143,7 +172,12 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
           }
         }
       }
+
       // add characteristics data to provider
+
+      // filamentize status notify
+      context.read<FilamentizeData>().changeFilamentizeStatus(
+          characteristic: allBluetooth["filamentizeStatus"]);
 
       // filamentize notify one
       context
@@ -158,6 +192,14 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
       // filamentize notify three
       context.read<FilamentizeData>().changeFilamentizeThree(
           characteristic: allBluetooth["filamentizeThree"]);
+
+      // set filamentize status
+      context.read<FilamentizeData>().changeSetDeviceStatus(
+          characteristic: allBluetooth["filamentizeSetStatus"]);
+
+      // set filamentize mode
+      context.read<FilamentizeData>().changeSetDeviceMode(
+          characteristic: allBluetooth["filamentizeSetMode"]);
 
       // set cooling fan01
       context
@@ -179,10 +221,15 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
           .read<FilamentizeData>()
           .changeTemp02(characteristic: allBluetooth["temp02"]);
 
+      // spool motor reset write
+      context
+          .read<FilamentizeData>()
+          .changeSpoolReset(characteristic: allBluetooth["spoolReset"]);
+
       // spool motor write
       context
           .read<FilamentizeData>()
-          .changeSpoolMotor(characteristic: allBluetooth["spoolMotor"]);
+          .changeSpoolMotor(characteristic: allBluetooth["spool"]);
 
       // stepper motor write
       context

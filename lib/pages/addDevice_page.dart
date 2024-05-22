@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:filamentize2/assets/colors.dart';
 import 'package:filamentize2/pages/connectDevice_page.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
@@ -15,23 +17,35 @@ class _AddDevicePageState extends State<AddDevicePage> {
   @override
   void initState() {
     super.initState();
-    // scan for filamentize
-    FlutterBluePlus.startScan(timeout: const Duration(seconds: 10));
-    FlutterBluePlus.onScanResults.listen((results) {
-      if (results.isNotEmpty) {
-        var result = results.last;
-        if (result.advertisementData.advName.contains("Filamentize")) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ConnectDevicePage(device: result)));
-        }
-      }
-    });
+    // check if bluetooth is turned on
   }
 
   @override
   Widget build(BuildContext context) {
+    var subscription = FlutterBluePlus.adapterState
+        .listen((BluetoothAdapterState state) async {
+      print(state);
+      if (state == BluetoothAdapterState.on) {
+        // scan for filamentize
+        FlutterBluePlus.startScan(timeout: const Duration(seconds: 10));
+        FlutterBluePlus.onScanResults.listen((results) {
+          if (results.isNotEmpty) {
+            var result = results.last;
+            if (result.advertisementData.advName.contains("Filamentize")) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ConnectDevicePage(device: result)));
+            }
+          }
+        });
+      } else {
+        if (Platform.isAndroid) {
+          await FlutterBluePlus.turnOn();
+        }
+      }
+    });
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
