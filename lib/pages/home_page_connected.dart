@@ -1009,6 +1009,10 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                   200,
                                                               setFanSpeed:
                                                                   (value) {
+                                                                print(context
+                                                                    .read<
+                                                                        FilamentizeData>()
+                                                                    .spoolMotor!);
                                                                 context
                                                                     .read<
                                                                         FilamentizeData>()

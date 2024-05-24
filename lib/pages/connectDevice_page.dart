@@ -120,14 +120,14 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
               allBluetooth["filamentizeSetStatus"] = c;
             }
 
+            // spool motor write
+            else if (descriptor.contains("spoolMotor")) {
+              allBluetooth["spoolMotor"] = c;
+            }
+
             // filamentize set device status write
             else if (descriptor.contains("spoolReset")) {
               allBluetooth["spoolReset"] = c;
-            }
-
-            // spool motor write
-            else if (descriptor.contains("spool")) {
-              allBluetooth["spoolMotor"] = c;
             }
 
             // stepper write
@@ -229,7 +229,7 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
       // spool motor write
       context
           .read<FilamentizeData>()
-          .changeSpoolMotor(characteristic: allBluetooth["spool"]);
+          .changeSpoolMotor(characteristic: allBluetooth["spoolMotor"]);
 
       // stepper motor write
       context
