@@ -1,16 +1,11 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:filamentize2/assets/colors.dart';
 import 'package:filamentize2/components/my_iconbutton.dart';
 import 'package:filamentize2/components/my_slider.dart';
 import 'package:filamentize2/components/my_temp.dart';
-import 'package:filamentize2/components/my_textfield.dart';
 import 'package:filamentize2/services/filamentizeData.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -1413,6 +1408,13 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                           .read<FilamentizeData>()
                                           .spoolReset!
                                           .write(utf8.encode("1"));
+                                      await Future.delayed(
+                                          const Duration(seconds: 1), () {
+                                        context
+                                            .read<FilamentizeData>()
+                                            .spoolReset!
+                                            .write(utf8.encode("0"));
+                                      });
                                     }
                                     if (newValue == "switch color") {
                                       showDialog(

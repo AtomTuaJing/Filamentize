@@ -99,7 +99,6 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
             else if (descriptor.contains("filamentizeOne")) {
               allBluetooth["filamentizeOne"] = c;
             }
-
             // filamentize notify two
             else if (descriptor.contains("filamentizeTwo")) {
               allBluetooth["filamentizeTwo"] = c;
@@ -120,14 +119,14 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
               allBluetooth["filamentizeSetStatus"] = c;
             }
 
-            // spool motor write
-            else if (descriptor.contains("spoolMotor")) {
-              allBluetooth["spoolMotor"] = c;
+            // filamentize set device status write
+            else if (descriptor.contains("reset spool write")) {
+              allBluetooth["spoolReset"] = c;
             }
 
-            // filamentize set device status write
-            else if (descriptor.contains("spoolReset")) {
-              allBluetooth["spoolReset"] = c;
+            // spool motor write
+            else if (descriptor.contains("spool write")) {
+              allBluetooth["spoolMotor"] = c;
             }
 
             // stepper write
