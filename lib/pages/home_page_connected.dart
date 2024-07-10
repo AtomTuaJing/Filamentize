@@ -4,6 +4,7 @@ import 'package:filamentize2/assets/colors.dart';
 import 'package:filamentize2/components/my_iconbutton.dart';
 import 'package:filamentize2/components/my_slider.dart';
 import 'package:filamentize2/components/my_temp.dart';
+import 'package:filamentize2/pages/can_filamentize_page.dart';
 import 'package:filamentize2/services/filamentizeData.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -1390,6 +1391,15 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                       ),
                                     ),
                                     PopupMenuItem(
+                                      value: "Plastic Checking",
+                                      child: Text(
+                                        "Plastic Checking",
+                                        style: GoogleFonts.montserrat(
+                                            fontWeight: FontWeight.w600,
+                                            color: ColorsAsset.white),
+                                      ),
+                                    ),
+                                    PopupMenuItem(
                                       value: "Reset Spool",
                                       child: Text(
                                         "Reset Spool",
@@ -1400,6 +1410,13 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                     ),
                                   ],
                                   onSelected: (newValue) async {
+                                    if (newValue == "Plastic Checking") {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const CanFilamentizePage()));
+                                    }
                                     if (newValue == "Switch Mode") {
                                       widget.toggleFilamentize!();
                                     }
@@ -1718,6 +1735,17 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                             .color!
                                                             .write(utf8.encode(
                                                                 selectedColor));
+                                                        await Future.delayed(
+                                                            const Duration(
+                                                                seconds: 1),
+                                                            () {
+                                                          context
+                                                              .read<
+                                                                  FilamentizeData>()
+                                                              .color!
+                                                              .write(utf8
+                                                                  .encode("0"));
+                                                        });
                                                         Navigator.pop(context);
                                                       },
                                                       child: Text("Shoot Color",
