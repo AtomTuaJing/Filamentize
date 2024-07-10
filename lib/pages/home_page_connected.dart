@@ -1456,7 +1456,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .w600)),
-                                                            value: "1",
+                                                            value: "0",
                                                             groupValue:
                                                                 selectedColor,
                                                             onChanged: (value) {
@@ -1472,7 +1472,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .w600)),
-                                                            value: "2",
+                                                            value: "1",
                                                             groupValue:
                                                                 selectedColor,
                                                             onChanged: (value) {
@@ -1488,7 +1488,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .w600)),
-                                                            value: "3",
+                                                            value: "2",
                                                             groupValue:
                                                                 selectedColor,
                                                             onChanged: (value) {
@@ -1504,7 +1504,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .w600)),
-                                                            value: "4",
+                                                            value: "3",
                                                             groupValue:
                                                                 selectedColor,
                                                             onChanged: (value) {
@@ -1520,7 +1520,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .w600)),
-                                                            value: "5",
+                                                            value: "4",
                                                             groupValue:
                                                                 selectedColor,
                                                             onChanged: (value) {
@@ -1537,7 +1537,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .w600)),
-                                                            value: "6",
+                                                            value: "5",
                                                             groupValue:
                                                                 selectedColor,
                                                             onChanged: (value) {
@@ -1553,7 +1553,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .w600)),
-                                                            value: "7",
+                                                            value: "6",
                                                             groupValue:
                                                                 selectedColor,
                                                             onChanged: (value) {
@@ -1570,7 +1570,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .w600)),
-                                                            value: "8",
+                                                            value: "7",
                                                             groupValue:
                                                                 selectedColor,
                                                             onChanged: (value) {
@@ -1587,7 +1587,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .w600)),
-                                                            value: "9",
+                                                            value: "8",
                                                             groupValue:
                                                                 selectedColor,
                                                             onChanged: (value) {
@@ -1603,7 +1603,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .w600)),
-                                                            value: "10",
+                                                            value: "9",
                                                             groupValue:
                                                                 selectedColor,
                                                             onChanged: (value) {
@@ -1620,7 +1620,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .w600)),
-                                                            value: "11",
+                                                            value: "10",
                                                             groupValue:
                                                                 selectedColor,
                                                             onChanged: (value) {
@@ -1636,7 +1636,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .w600)),
-                                                            value: "12",
+                                                            value: "11",
                                                             groupValue:
                                                                 selectedColor,
                                                             onChanged: (value) {
@@ -1652,7 +1652,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w600)),
-                                                            value: "13",
+                                                            value: "12",
                                                             groupValue:
                                                                 selectedColor,
                                                             onChanged: (value) {
@@ -1669,7 +1669,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .w600)),
-                                                            value: "14",
+                                                            value: "13",
                                                             groupValue:
                                                                 selectedColor,
                                                             onChanged: (value) {
@@ -1686,7 +1686,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .w600)),
-                                                            value: "15",
+                                                            value: "14",
                                                             groupValue:
                                                                 selectedColor,
                                                             onChanged: (value) {
@@ -1703,7 +1703,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .w600)),
-                                                            value: "16",
+                                                            value: "15",
                                                             groupValue:
                                                                 selectedColor,
                                                             onChanged: (value) {
