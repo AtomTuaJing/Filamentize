@@ -19,9 +19,21 @@ class FilamentizeData extends ChangeNotifier {
   BluetoothCharacteristic? stepper;
   BluetoothCharacteristic? vibrator;
   BluetoothCharacteristic? color;
+  BluetoothCharacteristic? otherNotify;
+  BluetoothCharacteristic? otherWrite;
 
   void changeFilamentizeDevice({required BluetoothDevice device}) {
     filamentizeDevice = device;
+    notifyListeners();
+  }
+
+  void changeOtherNotify({required characteristic}) {
+    otherNotify = characteristic;
+    notifyListeners();
+  }
+
+  void changeOtherWrite({required characteristic}) {
+    otherWrite = characteristic;
     notifyListeners();
   }
 

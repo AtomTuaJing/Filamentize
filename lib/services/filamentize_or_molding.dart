@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:filamentize2/assets/colors.dart';
 import 'package:filamentize2/pages/home_page_connected.dart';
 import 'package:filamentize2/pages/home_page_connected_mo.dart';
@@ -69,30 +68,34 @@ class _FilamentizeOrMoldingState extends State<FilamentizeOrMolding> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream:
-          context.read<FilamentizeData>().filamentizeStatus!.onValueReceived,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          final decodedFilamentizeStatus =
-              utf8.decode(snapshot.data!).split("/");
-          filamentizeStatus = decodedFilamentizeStatus[0];
-          filamentizeMode = decodedFilamentizeStatus[1];
-          if (filamentizeMode == "Filamentize") {
-            return HomePageConnected(
-                toggleFilamentize: toggleFilamentizePage,
-                toggleStatus: toggleFilamentizeStatus,
-                filamentizeStatus: filamentizeStatus);
-          } else {
-            return HomePageConnectedMo(
-                toggleFilamentize: toggleFilamentizePage,
-                toggleStatus: toggleFilamentizeStatus,
-                filamentizeStatus: filamentizeStatus);
+    if (context.watch<FilamentizeData>().filamentizeStatus != null) {
+      return StreamBuilder(
+        stream:
+            context.read<FilamentizeData>().filamentizeStatus!.onValueReceived,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final decodedFilamentizeStatus =
+                utf8.decode(snapshot.data!).split("/");
+            filamentizeStatus = decodedFilamentizeStatus[0];
+            filamentizeMode = decodedFilamentizeStatus[1];
+            if (filamentizeMode == "Filamentize") {
+              return HomePageConnected(
+                  toggleFilamentize: toggleFilamentizePage,
+                  toggleStatus: toggleFilamentizeStatus,
+                  filamentizeStatus: filamentizeStatus);
+            } else {
+              return HomePageConnectedMo(
+                  toggleFilamentize: toggleFilamentizePage,
+                  toggleStatus: toggleFilamentizeStatus,
+                  filamentizeStatus: filamentizeStatus);
+            }
           }
-        }
-        return const Center(
-            child: CircularProgressIndicator(color: ColorsAsset.green));
-      },
-    );
+          return const Center(
+              child: CircularProgressIndicator(color: ColorsAsset.green));
+        },
+      );
+    }
+    return const Center(
+        child: CircularProgressIndicator(color: ColorsAsset.green));
   }
 }

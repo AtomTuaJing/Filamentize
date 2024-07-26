@@ -15,12 +15,6 @@ class AddDevicePage extends StatefulWidget {
 
 class _AddDevicePageState extends State<AddDevicePage> {
   @override
-  void initState() {
-    super.initState();
-    // check if bluetooth is turned on
-  }
-
-  @override
   Widget build(BuildContext context) {
     var subscription = FlutterBluePlus.adapterState
         .listen((BluetoothAdapterState state) async {
@@ -31,7 +25,7 @@ class _AddDevicePageState extends State<AddDevicePage> {
         FlutterBluePlus.onScanResults.listen((results) {
           if (results.isNotEmpty) {
             var result = results.last;
-            if (result.advertisementData.advName.contains("Filamentize")) {
+            if (result.advertisementData.advName.contains("YedHod")) {
               Navigator.push(
                   context,
                   MaterialPageRoute(

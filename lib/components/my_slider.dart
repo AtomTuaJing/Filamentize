@@ -7,7 +7,7 @@ class MySlider extends StatefulWidget {
   final isRotate;
   final double? trackHeight;
   final double? sizedBoxWidth;
-  final Function(dynamic)? setFanSpeed;
+  final Function()? setFanSpeed;
   MySlider(
       {super.key,
       required this.sliderValue,
@@ -69,9 +69,7 @@ class _MySliderState extends State<MySlider> {
                       setState(() {
                         widget.sliderValue = newValue;
                       });
-                    },
-                    onChangeEnd: (value) {
-                      widget.setFanSpeed!(value.toString());
+                      widget.setFanSpeed;
                     },
                   ),
             Text("${widget.sliderValue.round().toString()}%",

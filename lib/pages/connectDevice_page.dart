@@ -39,6 +39,8 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
     "extruder": null,
     "vibrator": null,
     "color": null,
+    "otherNotify": null,
+    "otherWrite": null
   };
 
   void connectDevice() async {
@@ -58,6 +60,7 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
       // connect to device
       await filamentize.connect();
 
+      print("reading service");
       context
           .read<FilamentizeData>()
           .changeFilamentizeDevice(device: filamentize);
@@ -115,7 +118,7 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
             }
 
             // filamentize set device status write
-            else if (descriptor.contains("filamentizeStatus")) {
+            else if (descriptor.contains("filamentizeStatus write")) {
               allBluetooth["filamentizeSetStatus"] = c;
             }
 
@@ -167,6 +170,16 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
             // vibrator write
             else if (descriptor.contains("vibrator")) {
               allBluetooth["vibrator"] = c;
+            }
+
+            // other notify
+            else if (descriptor.contains("otherNotify")) {
+              allBluetooth["otherNotify"] = c;
+            }
+
+            // other write
+            else if (descriptor.contains("otherWrite")) {
+              allBluetooth["otherWrite"] = c;
             }
           }
         }
@@ -249,6 +262,16 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
       context
           .read<FilamentizeData>()
           .changeVibrator(characteristic: allBluetooth["vibrator"]);
+
+      // other notify
+      context
+          .read<FilamentizeData>()
+          .changeOtherNotify(characteristic: allBluetooth["otherNotify"]);
+
+      // other write
+      context
+          .read<FilamentizeData>()
+          .changeOtherWrite(characteristic: allBluetooth["otherWrite"]);
 
       // go to home page & pop loading circle
       Navigator.pop(context);
