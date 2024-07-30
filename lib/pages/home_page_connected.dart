@@ -392,9 +392,9 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                                           builder: (context) => AlertDialog(
                                                                                                 title: Text("Set Temperature", style: GoogleFonts.montserrat(fontWeight: FontWeight.w600)),
                                                                                                 content: TextField(
-                                                                                                  controller: setTemp01Controller,
+                                                                                                  controller: setTemp02Controller,
                                                                                                   style: GoogleFonts.montserrat(fontWeight: FontWeight.w600),
-                                                                                                  decoration: InputDecoration(hintText: setTemp01.toString(), hintStyle: GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: ColorsAsset.littleGrey)),
+                                                                                                  decoration: InputDecoration(hintText: setTemp02.toString(), hintStyle: GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: ColorsAsset.littleGrey)),
                                                                                                 ),
                                                                                                 actions: [
                                                                                                   TextButton(
@@ -404,10 +404,10 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                                                       child: Text("Cancel", style: GoogleFonts.montserrat(fontWeight: FontWeight.w600))),
                                                                                                   TextButton(
                                                                                                       onPressed: () async {
-                                                                                                        await context.read<FilamentizeData>().temp01!.write(utf8.encode(setTemp01Controller.text));
+                                                                                                        await context.read<FilamentizeData>().temp02!.write(utf8.encode(setTemp02Controller.text));
                                                                                                         Navigator.pop(context);
                                                                                                         Navigator.pop(context);
-                                                                                                        setTemp01Controller.clear();
+                                                                                                        setTemp02Controller.clear();
                                                                                                       },
                                                                                                       child: Text("OK", style: GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: ColorsAsset.green)))
                                                                                                 ],
@@ -776,227 +776,289 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                           width:
                                                               double.infinity,
                                                           height: 550,
-                                                          child: Column(
-                                                            children: [
-                                                              const SizedBox(
-                                                                  height: 30),
-                                                              // Speed Mode
-                                                              Text("Speed Mode",
-                                                                  style: GoogleFonts.montserrat(
-                                                                      fontSize:
-                                                                          24,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600)),
-
-                                                              const SizedBox(
-                                                                  height: 15),
-
-                                                              // spool motor
-                                                              Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                children: [
-                                                                  // icon button
-                                                                  Column(
-                                                                    children: [
-                                                                      // icon
-                                                                      const MyIconButton(
-                                                                          rectSize:
-                                                                              50,
-                                                                          iconSize:
-                                                                              36,
-                                                                          icon:
-                                                                              Icons.motion_photos_on_outlined),
-                                                                      // name
-                                                                      Text(
-                                                                          "Spool Motor",
-                                                                          style: GoogleFonts.montserrat(
-                                                                              fontSize: 14,
-                                                                              fontWeight: FontWeight.w600))
-                                                                    ],
-                                                                  ),
-
-                                                                  const SizedBox(
-                                                                      width:
-                                                                          20),
-
-                                                                  // slider
-                                                                  MySlider(
-                                                                      sliderValue:
-                                                                          spoolMotor,
-                                                                      isRotate:
-                                                                          false,
-                                                                      trackHeight:
-                                                                          50,
-                                                                      sizedBoxWidth:
-                                                                          200,
-                                                                      setFanSpeed:
-                                                                          null),
-                                                                ],
-                                                              ),
-
-                                                              const SizedBox(
-                                                                  height: 15),
-
-                                                              // extruder
-                                                              Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
+                                                          child: SliderTheme(
+                                                            data: SliderThemeData(
+                                                                trackHeight: 50,
+                                                                trackShape:
+                                                                    const RectangularSliderTrackShape(),
+                                                                thumbShape:
+                                                                    SliderComponentShape
+                                                                        .noOverlay,
+                                                                overlayShape:
+                                                                    SliderComponentShape
+                                                                        .noOverlay,
+                                                                activeTrackColor:
+                                                                    ColorsAsset
+                                                                        .green,
+                                                                inactiveTrackColor:
+                                                                    ColorsAsset
+                                                                        .littleGrey,
+                                                                valueIndicatorShape:
+                                                                    SliderComponentShape
+                                                                        .noOverlay,
+                                                                activeTickMarkColor:
+                                                                    Colors
+                                                                        .transparent,
+                                                                inactiveTickMarkColor:
+                                                                    Colors
+                                                                        .transparent),
+                                                            child: StatefulBuilder(
+                                                                builder: (context,
+                                                                    setState) {
+                                                              return Column(
                                                                 children: [
                                                                   const SizedBox(
-                                                                      width:
-                                                                          13),
-                                                                  // icon button
-                                                                  Column(
-                                                                    children: [
-                                                                      // icon
-                                                                      const MyIconButton(
-                                                                          rectSize:
-                                                                              50,
-                                                                          iconSize:
-                                                                              36,
-                                                                          icon:
-                                                                              Icons.present_to_all_sharp),
-                                                                      // name
-                                                                      Text(
-                                                                          "Extruder",
-                                                                          style: GoogleFonts.montserrat(
-                                                                              fontSize: 14,
-                                                                              fontWeight: FontWeight.w600))
-                                                                    ],
-                                                                  ),
+                                                                      height:
+                                                                          30),
+                                                                  // Speed Mode
+                                                                  Text(
+                                                                      "Speed Mode",
+                                                                      style: GoogleFonts.montserrat(
+                                                                          fontSize:
+                                                                              24,
+                                                                          fontWeight:
+                                                                              FontWeight.w600)),
 
                                                                   const SizedBox(
-                                                                      width:
-                                                                          32),
+                                                                      height:
+                                                                          15),
 
-                                                                  // slider
-                                                                  MySlider(
-                                                                      sliderValue:
-                                                                          extruder,
-                                                                      isRotate:
-                                                                          false,
-                                                                      trackHeight:
-                                                                          50,
-                                                                      sizedBoxWidth:
-                                                                          200,
-                                                                      setFanSpeed:
-                                                                          null),
-                                                                ],
-                                                              ),
-
-                                                              const SizedBox(
-                                                                  height: 15),
-
-                                                              // vibrator
-                                                              Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                children: [
-                                                                  const SizedBox(
-                                                                      width:
-                                                                          20),
-                                                                  // icon button
-                                                                  Column(
+                                                                  // spool motor
+                                                                  Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
                                                                     children: [
-                                                                      // icon
-                                                                      const MyIconButton(
-                                                                          rectSize:
-                                                                              50,
-                                                                          iconSize:
-                                                                              36,
-                                                                          icon:
-                                                                              Icons.cyclone),
-                                                                      // name
-                                                                      Text(
-                                                                          "Stepper",
-                                                                          style: GoogleFonts.montserrat(
-                                                                              fontSize: 14,
-                                                                              fontWeight: FontWeight.w600))
-                                                                    ],
-                                                                  ),
+                                                                      // icon button
+                                                                      Column(
+                                                                        children: [
+                                                                          // icon
+                                                                          const MyIconButton(
+                                                                              rectSize: 50,
+                                                                              iconSize: 36,
+                                                                              icon: Icons.motion_photos_on_outlined),
+                                                                          // name
+                                                                          Text(
+                                                                              "Spool Motor",
+                                                                              style: GoogleFonts.montserrat(fontSize: 14, fontWeight: FontWeight.w600))
+                                                                        ],
+                                                                      ),
 
-                                                                  // slider
-                                                                  Padding(
-                                                                    padding: const EdgeInsets
-                                                                        .only(
-                                                                        left:
-                                                                            35),
-                                                                    child: MySlider(
-                                                                        sliderValue:
-                                                                            stepper,
-                                                                        isRotate:
-                                                                            false,
-                                                                        trackHeight:
-                                                                            50,
-                                                                        sizedBoxWidth:
+                                                                      const SizedBox(
+                                                                          width:
+                                                                              20),
+
+                                                                      // slider
+                                                                      SizedBox(
+                                                                        width:
                                                                             200,
-                                                                        setFanSpeed:
-                                                                            null),
-                                                                  ),
-                                                                  const SizedBox(
-                                                                      width: 5)
-                                                                ],
-                                                              ),
-
-                                                              const SizedBox(
-                                                                  height: 20),
-
-                                                              Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                children: [
-                                                                  const SizedBox(
-                                                                      width:
-                                                                          20),
-                                                                  // icon button
-                                                                  Column(
-                                                                    children: [
-                                                                      // icon
-                                                                      const MyIconButton(
-                                                                          rectSize:
-                                                                              50,
-                                                                          iconSize:
-                                                                              36,
-                                                                          icon:
-                                                                              Icons.vibration_outlined),
-                                                                      // name
-                                                                      Text(
-                                                                          "Vibrator",
-                                                                          style: GoogleFonts.montserrat(
-                                                                              fontSize: 14,
-                                                                              fontWeight: FontWeight.w600))
+                                                                        child: Stack(
+                                                                            alignment:
+                                                                                Alignment.center,
+                                                                            children: [
+                                                                              Slider(
+                                                                                value: spoolMotor,
+                                                                                min: 0,
+                                                                                max: 100,
+                                                                                divisions: 10,
+                                                                                onChanged: (double newValue) {
+                                                                                  setState(() {
+                                                                                    spoolMotor = newValue;
+                                                                                  });
+                                                                                  context.read<FilamentizeData>().spoolMotor!.write(utf8.encode(spoolMotor.toString()));
+                                                                                },
+                                                                              ),
+                                                                              Text("${spoolMotor.round().toString()}%", style: GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w600, color: ColorsAsset.white))
+                                                                            ]),
+                                                                      )
                                                                     ],
                                                                   ),
 
-                                                                  // slider
-                                                                  Padding(
-                                                                    padding: const EdgeInsets
-                                                                        .only(
-                                                                        left:
-                                                                            35),
-                                                                    child: MySlider(
-                                                                        sliderValue:
-                                                                            vibrator,
-                                                                        isRotate:
-                                                                            false,
-                                                                        trackHeight:
-                                                                            50,
-                                                                        sizedBoxWidth:
-                                                                            200,
-                                                                        setFanSpeed:
-                                                                            null),
-                                                                  ),
                                                                   const SizedBox(
-                                                                      width: 5)
+                                                                      height:
+                                                                          15),
+
+                                                                  // extruder
+                                                                  Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      const SizedBox(
+                                                                          width:
+                                                                              13),
+                                                                      // icon button
+                                                                      Column(
+                                                                        children: [
+                                                                          // icon
+                                                                          const MyIconButton(
+                                                                              rectSize: 50,
+                                                                              iconSize: 36,
+                                                                              icon: Icons.present_to_all_sharp),
+                                                                          // name
+                                                                          Text(
+                                                                              "Extruder",
+                                                                              style: GoogleFonts.montserrat(fontSize: 14, fontWeight: FontWeight.w600))
+                                                                        ],
+                                                                      ),
+
+                                                                      const SizedBox(
+                                                                          width:
+                                                                              32),
+
+                                                                      // slider
+                                                                      SizedBox(
+                                                                        width:
+                                                                            200,
+                                                                        child: Stack(
+                                                                            alignment:
+                                                                                Alignment.center,
+                                                                            children: [
+                                                                              Slider(
+                                                                                value: extruder,
+                                                                                min: 0,
+                                                                                max: 100,
+                                                                                divisions: 10,
+                                                                                onChanged: (double newValue) {
+                                                                                  setState(() {
+                                                                                    extruder = newValue;
+                                                                                  });
+                                                                                  context.read<FilamentizeData>().extruder!.write(utf8.encode(extruder.toString()));
+                                                                                },
+                                                                              ),
+                                                                              Text("${extruder.round().toString()}%", style: GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w600, color: ColorsAsset.white))
+                                                                            ]),
+                                                                      )
+                                                                    ],
+                                                                  ),
+
+                                                                  const SizedBox(
+                                                                      height:
+                                                                          15),
+
+                                                                  // vibrator
+                                                                  Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      const SizedBox(
+                                                                          width:
+                                                                              20),
+                                                                      // icon button
+                                                                      Column(
+                                                                        children: [
+                                                                          // icon
+                                                                          const MyIconButton(
+                                                                              rectSize: 50,
+                                                                              iconSize: 36,
+                                                                              icon: Icons.cyclone),
+                                                                          // name
+                                                                          Text(
+                                                                              "Stepper",
+                                                                              style: GoogleFonts.montserrat(fontSize: 14, fontWeight: FontWeight.w600))
+                                                                        ],
+                                                                      ),
+
+                                                                      // slider
+                                                                      Padding(
+                                                                        padding: const EdgeInsets
+                                                                            .only(
+                                                                            left:
+                                                                                35),
+                                                                        child:
+                                                                            SizedBox(
+                                                                          width:
+                                                                              200,
+                                                                          child: Stack(
+                                                                              alignment: Alignment.center,
+                                                                              children: [
+                                                                                Slider(
+                                                                                  value: stepper,
+                                                                                  min: 0,
+                                                                                  max: 100,
+                                                                                  divisions: 10,
+                                                                                  onChanged: (double newValue) {
+                                                                                    setState(() {
+                                                                                      stepper = newValue;
+                                                                                    });
+                                                                                    context.read<FilamentizeData>().stepper!.write(utf8.encode(stepper.toString()));
+                                                                                  },
+                                                                                ),
+                                                                                Text("${stepper.round().toString()}%", style: GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w600, color: ColorsAsset.white))
+                                                                              ]),
+                                                                        ),
+                                                                      ),
+                                                                      const SizedBox(
+                                                                          width:
+                                                                              5)
+                                                                    ],
+                                                                  ),
+
+                                                                  const SizedBox(
+                                                                      height:
+                                                                          20),
+
+                                                                  Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      const SizedBox(
+                                                                          width:
+                                                                              20),
+                                                                      // icon button
+                                                                      Column(
+                                                                        children: [
+                                                                          // icon
+                                                                          const MyIconButton(
+                                                                              rectSize: 50,
+                                                                              iconSize: 36,
+                                                                              icon: Icons.vibration_outlined),
+                                                                          // name
+                                                                          Text(
+                                                                              "Vibrator",
+                                                                              style: GoogleFonts.montserrat(fontSize: 14, fontWeight: FontWeight.w600))
+                                                                        ],
+                                                                      ),
+
+                                                                      // slider
+                                                                      Padding(
+                                                                        padding: const EdgeInsets
+                                                                            .only(
+                                                                            left:
+                                                                                35),
+                                                                        child:
+                                                                            SizedBox(
+                                                                          width:
+                                                                              200,
+                                                                          child: Stack(
+                                                                              alignment: Alignment.center,
+                                                                              children: [
+                                                                                Slider(
+                                                                                  value: vibrator,
+                                                                                  min: 0,
+                                                                                  max: 100,
+                                                                                  divisions: 10,
+                                                                                  onChanged: (double newValue) {
+                                                                                    setState(() {
+                                                                                      vibrator = newValue;
+                                                                                    });
+                                                                                    context.read<FilamentizeData>().vibrator!.write(utf8.encode(vibrator.toString()));
+                                                                                  },
+                                                                                ),
+                                                                                Text("${vibrator.round().toString()}%", style: GoogleFonts.montserrat(fontSize: 13, fontWeight: FontWeight.w600, color: ColorsAsset.white))
+                                                                              ]),
+                                                                        ),
+                                                                      ),
+                                                                      const SizedBox(
+                                                                          width:
+                                                                              5)
+                                                                    ],
+                                                                  )
                                                                 ],
-                                                              )
-                                                            ],
+                                                              );
+                                                            }),
                                                           ),
                                                         );
                                                       });
