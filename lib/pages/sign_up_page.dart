@@ -40,7 +40,13 @@ class _SignUpPageState extends State<SignUpPage> {
       FirebaseFirestore.instance
           .collection("Users")
           .doc(userCredential.user!.email)
-          .set({"username": nameController.text, "wallet": 0});
+          .set({
+        "username": nameController.text,
+        "wallet": 0,
+        "language": "en",
+        "level": "rookie",
+        "profile": ""
+      });
 
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {

@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:filamentize2/assets/colors.dart';
 import 'package:filamentize2/pages/home_page_connected.dart';
 import 'package:filamentize2/pages/home_page_connected_mo.dart';
 import 'package:filamentize2/services/filamentizeData.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +19,9 @@ class _FilamentizeOrMoldingState extends State<FilamentizeOrMolding> {
   // initially set to filamentize page
   String filamentizeStatus = "";
   String filamentizeMode = "";
+
+  // current user
+  var currentUser = FirebaseAuth.instance.currentUser;
 
   @override
   void didChangeDependencies() {
@@ -63,6 +68,14 @@ class _FilamentizeOrMoldingState extends State<FilamentizeOrMolding> {
           .setDeviceStatus!
           .write(utf8.encode("On"));
       Navigator.pop(context);
+      var userData = await FirebaseFirestore.instance
+          .collection("Users")
+          .doc(currentUser!.email)
+          .get();
+      await FirebaseFirestore.instance
+          .collection("Users")
+          .doc(currentUser!.email)
+          .update({"wallet": userData["wallet"] + 3});
     }
   }
 

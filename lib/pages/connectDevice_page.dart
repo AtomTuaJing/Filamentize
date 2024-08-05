@@ -3,9 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:filamentize2/assets/colors.dart';
 import 'package:filamentize2/components/my_button.dart';
 import 'package:filamentize2/services/filamentizeData.dart';
+import 'package:filamentize2/services/languages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -310,7 +312,7 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Device Found",
+        title: Text(AppLocale.addDevice.getString(context),
             style: GoogleFonts.montserrat(
                 fontSize: 20, fontWeight: FontWeight.w600)),
         leading: IconButton(
@@ -326,7 +328,7 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
           children: [
             // would you like to connect text
             Text(
-                "Would you like to connect to ${widget.device.advertisementData.advName}",
+                "${AppLocale.wouldYouLikeToBind.getString(context)} Filamentize#ABC1",
                 style: GoogleFonts.montserrat(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -420,7 +422,7 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
             GestureDetector(
               onTap: connectDevice,
               child: MyButton(
-                text: "Connect",
+                text: AppLocale.bindDevice.getString(context),
                 color: ColorsAsset.green,
                 textColor: Colors.white,
                 iconData: Icons.phonelink_ring,

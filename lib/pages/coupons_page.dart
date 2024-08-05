@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:filamentize2/assets/colors.dart';
 import 'package:filamentize2/components/my_coupon.dart';
 import 'package:filamentize2/pages/useCoupon_page.dart';
+import 'package:filamentize2/services/languages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CouponsPage extends StatefulWidget {
@@ -30,7 +32,7 @@ class _CouponsPageState extends State<CouponsPage> {
             onPressed: () {
               Navigator.pop(context);
             }),
-        title: Text("My Coupons",
+        title: Text(AppLocale.myCoupon.getString(context),
             style: GoogleFonts.montserrat(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,

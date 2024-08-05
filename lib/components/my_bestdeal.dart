@@ -7,16 +7,19 @@ class MyBestDeal extends StatelessWidget {
   final String place;
   final String price;
   final String type;
+  final String image;
   const MyBestDeal(
       {super.key,
       required this.title,
       required this.place,
       required this.price,
-      required this.type});
+      required this.type,
+      required this.image});
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(7), color: ColorsAsset.white),
       child: Column(
@@ -24,8 +27,15 @@ class MyBestDeal extends StatelessWidget {
           // coupon image + tag
           Stack(children: [
             // image
-            Image.asset("images/filamentizeMachine.png",
-                width: 155, height: 151),
+            SizedBox(
+              width: 155,
+              height: 151,
+              child: Image.asset(
+                image,
+                fit: BoxFit.cover,
+                alignment: Alignment.center,
+              ),
+            ),
 
             // tag
             Padding(
@@ -34,7 +44,7 @@ class MyBestDeal extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
                 decoration: BoxDecoration(
-                    color: ColorsAsset.white,
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(4)),
                 child: Text(
                   type,
@@ -57,17 +67,22 @@ class MyBestDeal extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   // name + description
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(title,
-                          style: GoogleFonts.montserrat(
-                              fontSize: 15, fontWeight: FontWeight.bold)),
-                      Text(place,
-                          style: GoogleFonts.montserrat(
-                              fontSize: 12, fontWeight: FontWeight.w600))
-                    ],
+                  SizedBox(
+                    width: 85,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.montserrat(
+                                fontSize: 15, fontWeight: FontWeight.bold)),
+                        Text(place,
+                            style: GoogleFonts.montserrat(
+                                fontSize: 12, fontWeight: FontWeight.w600))
+                      ],
+                    ),
                   ),
                   // cost
                   Padding(

@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:filamentize2/assets/colors.dart';
+import 'package:filamentize2/services/languages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -98,18 +100,18 @@ class _UseCouponPageState extends State<UseCouponPage> {
 
                           // descriptions
                           Text(
-                              "- Redeemable at all ${widget.coupon["place"]} in Thailand",
+                              "- ${AppLocale.forThailandUse.getString(context)}",
                               style: GoogleFonts.montserrat(
                                   fontSize: 12, fontWeight: FontWeight.w500),
                               maxLines: 2),
 
                           Text(
-                            "- Not valid with any other discount and promotions.",
+                            "- ${AppLocale.cantUseWithOther.getString(context)}",
                             style: GoogleFonts.montserrat(
                                 fontSize: 12, fontWeight: FontWeight.w500),
                           ),
 
-                          Text("- No Cash Value",
+                          Text("- ${AppLocale.noCashValue.getString(context)}",
                               style: GoogleFonts.montserrat(
                                   fontSize: 12, fontWeight: FontWeight.w500)),
                         ],

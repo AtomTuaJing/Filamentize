@@ -7,12 +7,14 @@ class MyRecommended extends StatelessWidget {
   final String place;
   final String price;
   final String type;
+  final String image;
   const MyRecommended(
       {super.key,
       required this.title,
       required this.place,
       required this.price,
-      required this.type});
+      required this.type,
+      required this.image});
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +29,14 @@ class MyRecommended extends StatelessWidget {
           Stack(
             children: [
               // image
-              Image.asset("images/filamentizeMachine.png",
-                  width: 296, height: 133),
+              SizedBox(
+                  width: 296,
+                  height: 133,
+                  child: Image.asset(
+                    image,
+                    fit: BoxFit.cover,
+                    alignment: Alignment.center,
+                  )),
 
               // tag
               Padding(

@@ -8,10 +8,12 @@ import 'package:filamentize2/components/my_molding.dart';
 import 'package:filamentize2/components/my_slider.dart';
 import 'package:filamentize2/components/my_temp.dart';
 import 'package:filamentize2/services/filamentizeData.dart';
+import 'package:filamentize2/services/languages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:popover/popover.dart';
@@ -43,28 +45,29 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
   double stepper = 0;
   String color = "";
   var selectedColor = "";
-  List<String> Options = [
-    "White",
-    "Black",
-    "Red",
-    "Green",
-    "Blue",
-    "Yellow",
-    "Cyan",
-    "Magenta",
-    "Purple",
-    "Brown",
-    "Orange",
-    "Gray",
-    "Lime Green",
-    "Navy Blue",
-    "Silver",
-    "Maroon"
-  ];
+
+  var Options;
 
   @override
   void didChangeDependencies() {
-    super.didChangeDependencies();
+    Options = [
+      AppLocale.white.getString(context),
+      AppLocale.black.getString(context),
+      AppLocale.red.getString(context),
+      AppLocale.green.getString(context),
+      AppLocale.blue.getString(context),
+      AppLocale.yellow.getString(context),
+      AppLocale.cyan.getString(context),
+      AppLocale.magenta.getString(context),
+      AppLocale.purple.getString(context),
+      AppLocale.brown.getString(context),
+      AppLocale.orange.getString(context),
+      AppLocale.gray.getString(context),
+      AppLocale.limeGreen.getString(context),
+      AppLocale.navyBlue.getString(context),
+      AppLocale.silver.getString(context),
+      AppLocale.maroon.getString(context)
+    ];
     if (context.watch<FilamentizeData>().filamentizeThree != null) {
       context.read<FilamentizeData>().filamentizeThree!.setNotifyValue(true);
     }
@@ -74,6 +77,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
     if (context.watch<FilamentizeData>().filamentizeTwo != null) {
       context.read<FilamentizeData>().filamentizeTwo!.setNotifyValue(true);
     }
+    super.didChangeDependencies();
   }
 
   // current user
@@ -167,7 +171,9 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                               const SizedBox(width: 2),
 
                                               // on/off text
-                                              Text("Device On",
+                                              Text(
+                                                  AppLocale.deviceOn
+                                                      .getString(context),
                                                   style: GoogleFonts.montserrat(
                                                       fontSize: 16,
                                                       fontWeight:
@@ -206,7 +212,9 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                               const SizedBox(width: 2),
 
                                               // on/off text
-                                              Text("Device Off",
+                                              Text(
+                                                  AppLocale.deviceOff
+                                                      .getString(context),
                                                   style: GoogleFonts.montserrat(
                                                       fontSize: 16,
                                                       fontWeight:
@@ -233,7 +241,8 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                 RichText(
                                     text: TextSpan(children: [
                                   TextSpan(
-                                      text: "selected color : ",
+                                      text:
+                                          "${AppLocale.selectedColor.getString(context)} : ",
                                       style: GoogleFonts.montserrat(
                                           fontSize: 10,
                                           fontWeight: FontWeight.w600,
@@ -337,7 +346,10 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                                             30),
                                                                     // stats header
                                                                     Text(
-                                                                        "Stats",
+                                                                        AppLocale
+                                                                            .stats
+                                                                            .getString(
+                                                                                context),
                                                                         style: GoogleFonts.montserrat(
                                                                             fontSize:
                                                                                 24,
@@ -364,7 +376,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                                               const MyIconButton(rectSize: 51, iconSize: 35, icon: Icons.thermostat),
 
                                                                               // temp
-                                                                              Text("temperature", style: GoogleFonts.montserrat(fontSize: 12, fontWeight: FontWeight.w600))
+                                                                              Text(AppLocale.temperature.getString(context), style: GoogleFonts.montserrat(fontSize: 12, fontWeight: FontWeight.w600))
                                                                             ],
                                                                           ),
 
@@ -378,7 +390,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                                               const SizedBox(height: 10),
 
                                                                               // text
-                                                                              Text("temperature", style: GoogleFonts.montserrat(fontSize: 12, fontWeight: FontWeight.w600))
+                                                                              Text(AppLocale.temperature.getString(context), style: GoogleFonts.montserrat(fontSize: 12, fontWeight: FontWeight.w600))
                                                                             ],
                                                                           )
                                                                         ],
@@ -408,7 +420,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
 
                                                                               // text
                                                                               Text(
-                                                                                "Cooling Fans",
+                                                                                AppLocale.coolingFan.getString(context),
                                                                                 style: GoogleFonts.montserrat(fontSize: 12, fontWeight: FontWeight.w600),
                                                                               )
                                                                             ],
@@ -464,7 +476,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
 
                                                                               // text
                                                                               Text(
-                                                                                "Speed",
+                                                                                AppLocale.speed.getString(context),
                                                                                 style: GoogleFonts.montserrat(fontSize: 12, fontWeight: FontWeight.w600),
                                                                               )
                                                                             ],
@@ -477,7 +489,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                                               Text("${spoolMotor.round()}%", style: GoogleFonts.montserrat(fontSize: 24, fontWeight: FontWeight.bold)),
 
                                                                               // spool motor text
-                                                                              Text("spool motor", style: GoogleFonts.montserrat(fontSize: 11, fontWeight: FontWeight.w600))
+                                                                              Text(AppLocale.spoolMotor.getString(context), style: GoogleFonts.montserrat(fontSize: 11, fontWeight: FontWeight.w600))
                                                                             ],
                                                                           ),
 
@@ -487,8 +499,8 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                                               // spool motor percent
                                                                               Text("${extruder.round()}%", style: GoogleFonts.montserrat(fontSize: 24, fontWeight: FontWeight.bold)),
 
-                                                                              // spool motor text
-                                                                              Text("extruder", style: GoogleFonts.montserrat(fontSize: 11, fontWeight: FontWeight.w600))
+                                                                              // extruder text
+                                                                              Text(AppLocale.extruder.getString(context), style: GoogleFonts.montserrat(fontSize: 11, fontWeight: FontWeight.w600))
                                                                             ],
                                                                           ),
 
@@ -498,8 +510,8 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                                               // spool motor percent
                                                                               Text("${stepper.round()}%", style: GoogleFonts.montserrat(fontSize: 24, fontWeight: FontWeight.bold)),
 
-                                                                              // spool motor text
-                                                                              Text("stepper", style: GoogleFonts.montserrat(fontSize: 11, fontWeight: FontWeight.w600))
+                                                                              // stepper text
+                                                                              Text(AppLocale.stepper.getString(context), style: GoogleFonts.montserrat(fontSize: 11, fontWeight: FontWeight.w600))
                                                                             ],
                                                                           ),
                                                                         ],
@@ -516,7 +528,9 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                       rectSize: 44,
                                                     ),
                                                   ),
-                                                  Text("Stats",
+                                                  Text(
+                                                      AppLocale.stats
+                                                          .getString(context),
                                                       style: GoogleFonts
                                                           .montserrat(
                                                               fontSize: 10,
@@ -544,7 +558,9 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                                     FontWeight
                                                                         .bold)),
                                                     // temp
-                                                    Text("temp",
+                                                    Text(
+                                                        AppLocale.temperature
+                                                            .getString(context),
                                                         style: GoogleFonts
                                                             .montserrat(
                                                                 fontSize: 10,
@@ -574,7 +590,9 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                                     FontWeight
                                                                         .bold)),
                                                     // fan
-                                                    Text("fan",
+                                                    Text(
+                                                        AppLocale.fan
+                                                            .getString(context),
                                                         style: GoogleFonts
                                                             .montserrat(
                                                                 fontSize: 10,
@@ -592,7 +610,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.center,
                                                   children: [
-                                                    // fan percent
+                                                    // speed detail
                                                     Text("Med",
                                                         style: GoogleFonts
                                                             .montserrat(
@@ -600,8 +618,10 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold)),
-                                                    // fan
-                                                    Text("speed",
+                                                    // speed
+                                                    Text(
+                                                        AppLocale.speed
+                                                            .getString(context),
                                                         style: GoogleFonts
                                                             .montserrat(
                                                                 fontSize: 10,
@@ -645,7 +665,9 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                   children: [
                                                     const SizedBox(height: 30),
                                                     // molding header
-                                                    Text("Molding",
+                                                    Text(
+                                                        AppLocale.molding
+                                                            .getString(context),
                                                         style: GoogleFonts
                                                             .montserrat(
                                                                 fontSize: 24,
@@ -741,7 +763,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                                 (context) =>
                                                                     AlertDialog(
                                                                       title: Text(
-                                                                          "Add Molding Model",
+                                                                          "${AppLocale.add.getString(context)} ${AppLocale.modelName.getString(context)}",
                                                                           style:
                                                                               GoogleFonts.montserrat(fontWeight: FontWeight.w600)),
                                                                       content: StatefulBuilder(builder:
@@ -760,7 +782,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                                                   cursorColor: ColorsAsset.green,
                                                                                   style: GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: ColorsAsset.littleGrey),
                                                                                   controller: modelNameController,
-                                                                                  decoration: InputDecoration(hintText: "Model name", hintStyle: GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: ColorsAsset.littleGrey)),
+                                                                                  decoration: InputDecoration(hintText: AppLocale.modelName.getString(context), hintStyle: GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: ColorsAsset.littleGrey)),
                                                                                 ),
 
                                                                                 const SizedBox(height: 15),
@@ -770,7 +792,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                                                   cursorColor: ColorsAsset.green,
                                                                                   style: GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: ColorsAsset.littleGrey),
                                                                                   controller: requiredTempController,
-                                                                                  decoration: InputDecoration(hintText: "Required Temp", hintStyle: GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: ColorsAsset.littleGrey)),
+                                                                                  decoration: InputDecoration(hintText: AppLocale.requiredTemp.getString(context), hintStyle: GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: ColorsAsset.littleGrey)),
                                                                                 ),
 
                                                                                 const SizedBox(height: 15),
@@ -780,7 +802,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                                                   cursorColor: ColorsAsset.green,
                                                                                   style: GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: ColorsAsset.littleGrey),
                                                                                   controller: plasticUsageController,
-                                                                                  decoration: InputDecoration(hintText: "Plastic Usage", hintStyle: GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: ColorsAsset.littleGrey)),
+                                                                                  decoration: InputDecoration(hintText: AppLocale.plasticUsage.getString(context), hintStyle: GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: ColorsAsset.littleGrey)),
                                                                                 ),
 
                                                                                 const SizedBox(height: 20),
@@ -789,7 +811,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                                                 Row(
                                                                                   children: [
                                                                                     // plastic type text
-                                                                                    Text("Plastic Type : ", style: GoogleFonts.montserrat(fontWeight: FontWeight.w600, fontSize: 18, color: ColorsAsset.littleGrey)),
+                                                                                    Text("${AppLocale.plasticType.getString(context)} : ", style: GoogleFonts.montserrat(fontWeight: FontWeight.w600, fontSize: 18, color: ColorsAsset.littleGrey)),
                                                                                     // drop down menu
                                                                                     DropdownButton(
                                                                                         value: plasticType,
@@ -819,7 +841,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                                                 () {
                                                                               Navigator.pop(context);
                                                                             },
-                                                                            child: Text("Cancel",
+                                                                            child: Text(AppLocale.cancel.getString(context),
                                                                                 style: GoogleFonts.montserrat(
                                                                                   fontWeight: FontWeight.w600,
                                                                                 ))),
@@ -837,7 +859,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                                               Navigator.pop(context);
                                                                             },
                                                                             child:
-                                                                                Text("OK", style: GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: ColorsAsset.green))),
+                                                                                Text(AppLocale.ok.getString(context), style: GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: ColorsAsset.green))),
                                                                       ],
                                                                     ));
                                                       },
@@ -867,7 +889,9 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
 
                                                               // add
                                                               Text(
-                                                                "Add",
+                                                                AppLocale.add
+                                                                    .getString(
+                                                                        context),
                                                                 style: GoogleFonts.montserrat(
                                                                     fontSize:
                                                                         24,
@@ -891,7 +915,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                           iconSize: 30,
                                           icon: Icons.format_shapes),
                                     ),
-                                    Text("Molding",
+                                    Text(AppLocale.molding.getString(context),
                                         style: GoogleFonts.montserrat(
                                             fontSize: 10,
                                             fontWeight: FontWeight.w600))
@@ -914,7 +938,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
 
                                         // mold temp
                                         Text(
-                                          "mold temp",
+                                          AppLocale.moldTemp.getString(context),
                                           style: GoogleFonts.montserrat(
                                               fontSize: 10,
                                               fontWeight: FontWeight.w600),
@@ -927,15 +951,15 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                     // plastic type
                                     Column(
                                       children: [
-                                        // rl mold temp
+                                        // type
                                         Text("${moldingModel["type"]}",
                                             style: GoogleFonts.montserrat(
                                                 fontSize: 24,
                                                 fontWeight: FontWeight.bold)),
 
-                                        // mold temp
+                                        // type
                                         Text(
-                                          "type",
+                                          AppLocale.type.getString(context),
                                           style: GoogleFonts.montserrat(
                                               fontSize: 10,
                                               fontWeight: FontWeight.w600),
@@ -988,7 +1012,9 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                             ),
 
                                             // stop text
-                                            Text("Stop",
+                                            Text(
+                                                AppLocale.stop
+                                                    .getString(context),
                                                 style: GoogleFonts.montserrat(
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.w600,
@@ -1017,7 +1043,9 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                             ),
 
                                             // stop text
-                                            Text("Start",
+                                            Text(
+                                                AppLocale.start
+                                                    .getString(context),
                                                 style: GoogleFonts.montserrat(
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.w600,
@@ -1043,7 +1071,8 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                   PopupMenuItem(
                                     value: "switch color",
                                     child: Text(
-                                      "Select Color",
+                                      AppLocale.selectedColor
+                                          .getString(context),
                                       style: GoogleFonts.montserrat(
                                           fontWeight: FontWeight.w600,
                                           color: ColorsAsset.white),
@@ -1052,7 +1081,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                   PopupMenuItem(
                                     value: "Switch Mode",
                                     child: Text(
-                                      "Switch Mode",
+                                      AppLocale.switchMode.getString(context),
                                       style: GoogleFonts.montserrat(
                                           fontWeight: FontWeight.w600,
                                           color: ColorsAsset.white),

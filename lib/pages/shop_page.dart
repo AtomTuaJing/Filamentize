@@ -4,8 +4,10 @@ import 'package:filamentize2/assets/colors.dart';
 import 'package:filamentize2/components/my_bestdeal.dart';
 import 'package:filamentize2/components/my_recommended.dart';
 import 'package:filamentize2/pages/coupons_page.dart';
+import 'package:filamentize2/services/languages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -23,22 +25,76 @@ class _ShopPageState extends State<ShopPage> {
   // current user
   final currentUser = FirebaseAuth.instance.currentUser;
 
+  // selling things
+  var recommended;
+  var bestDeal;
+
+  @override
+  void didChangeDependencies() {
+    recommended = [
+      {
+        "title": AppLocale.wallpaper.getString(context),
+        "place": "BCC",
+        "price": 79,
+        "type": AppLocale.item.getString(context),
+        "image": "images/wallpaper.png"
+      },
+      {
+        "title": AppLocale.stickers.getString(context),
+        "place": "BCC",
+        "price": 29,
+        "type": AppLocale.item.getString(context),
+        "image": "images/stickers.png"
+      },
+      {
+        "title": AppLocale.entryCard.getString(context),
+        "place": "BCC",
+        "price": 99,
+        "type": AppLocale.item.getString(context),
+        "image": "images/entryCard.png"
+      },
+    ];
+
+    bestDeal = [
+      {
+        "title": AppLocale.messengerBag.getString(context),
+        "place": "BCC",
+        "price": 550,
+        "type": AppLocale.item.getString(context),
+        "image": "images/messenger.png"
+      },
+      {
+        "title": AppLocale.sportBag.getString(context),
+        "place": "BCC",
+        "price": 550,
+        "type": AppLocale.item.getString(context),
+        "image": "images/sportsBag.png"
+      },
+      {
+        "title": AppLocale.bccDolls.getString(context),
+        "place": "BCC",
+        "price": 479,
+        "type": AppLocale.item.getString(context),
+        "image": "images/dolls.png"
+      },
+      {
+        "title": AppLocale.lineStickers.getString(context),
+        "place": "BCC",
+        "price": 79,
+        "type": AppLocale.item.getString(context),
+        "image": "images/lineSticker.png"
+      },
+    ];
+    super.didChangeDependencies();
+  }
+
   // buy recommended coupon method
-  Future<void> buyRecommendedCoupon(String couponDocId) async {
+  Future<void> buyRecommendedCoupon(var coupon) async {
     // show loading circle
     showDialog(
         context: context,
         builder: (context) => const Center(
             child: CircularProgressIndicator(color: ColorsAsset.green)));
-
-    // access coupon
-    final coupon = await FirebaseFirestore.instance
-        .collection("Recommended")
-        .doc(couponDocId)
-        .get();
-
-    // access coupon data
-    final couponData = coupon.data() as Map<String, dynamic>;
 
     // access user
     final user =
@@ -54,7 +110,7 @@ class _ShopPageState extends State<ShopPage> {
     final userCouponData = user.collection("myCoupons");
 
     var userWallet = userData["wallet"];
-    var couponPrice = couponData["price"];
+    var couponPrice = coupon["price"];
 
     // check if user have enough wallet to buy
     if (userWallet >= couponPrice) {
@@ -66,9 +122,8 @@ class _ShopPageState extends State<ShopPage> {
 
       // add user coupon data
       await userCouponData.add({
-        "title": couponData["title"],
-        "place": couponData["place"],
-        "serialId": coupon.id
+        "title": coupon["title"],
+        "place": coupon["place"],
       });
 
       Navigator.pop(context);
@@ -79,39 +134,31 @@ class _ShopPageState extends State<ShopPage> {
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
-                title: Text("Error",
+                title: Text(AppLocale.error.getString(context),
                     style: GoogleFonts.montserrat(fontWeight: FontWeight.w600)),
-                content: Text("Not Enough Wallet",
+                content: Text(AppLocale.notEnoughWallet,
                     style: GoogleFonts.montserrat(fontWeight: FontWeight.w600)),
                 actions: [
                   TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text("OK",
+                      child: Text(AppLocale.ok.getString(context),
                           style: GoogleFonts.montserrat(
-                              fontWeight: FontWeight.w600)))
+                              fontWeight: FontWeight.w600,
+                              color: ColorsAsset.green)))
                 ],
               ));
     }
   }
 
   // buy best deal coupon method
-  Future<void> buyBestDealCoupon(String couponDocId) async {
+  Future<void> buyBestDealCoupon(var coupon) async {
     // show loading circle
     showDialog(
         context: context,
         builder: (context) => const Center(
             child: CircularProgressIndicator(color: ColorsAsset.green)));
-
-    // access coupon
-    final coupon = await FirebaseFirestore.instance
-        .collection("Coupons")
-        .doc(couponDocId)
-        .get();
-
-    // access coupon data
-    final couponData = coupon.data() as Map<String, dynamic>;
 
     // access user
     final user =
@@ -127,7 +174,7 @@ class _ShopPageState extends State<ShopPage> {
     final userCouponData = user.collection("myCoupons");
 
     var userWallet = userData["wallet"];
-    var couponPrice = couponData["price"];
+    var couponPrice = coupon["price"];
 
     // check if user have enough wallet to buy
     if (userWallet >= couponPrice) {
@@ -139,9 +186,8 @@ class _ShopPageState extends State<ShopPage> {
 
       // add user coupon data
       await userCouponData.add({
-        "title": couponData["title"],
-        "place": couponData["place"],
-        "serialId": coupon.id
+        "title": coupon["title"],
+        "place": coupon["place"],
       });
 
       Navigator.pop(context);
@@ -152,16 +198,16 @@ class _ShopPageState extends State<ShopPage> {
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
-                title: Text("Error",
+                title: Text(AppLocale.error.getString(context),
                     style: GoogleFonts.montserrat(fontWeight: FontWeight.w600)),
-                content: Text("Not Enough Wallet",
+                content: Text(AppLocale.notEnoughWallet.getString(context),
                     style: GoogleFonts.montserrat(fontWeight: FontWeight.w600)),
                 actions: [
                   TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text("OK",
+                      child: Text(AppLocale.ok.getString(context),
                           style: GoogleFonts.montserrat(
                               fontWeight: FontWeight.w600)))
                 ],
@@ -228,7 +274,7 @@ class _ShopPageState extends State<ShopPage> {
                     const SizedBox(width: 5),
 
                     // recommend
-                    Text("Recommended",
+                    Text(AppLocale.recommended.getString(context),
                         style: GoogleFonts.montserrat(
                             fontSize: 16, fontWeight: FontWeight.bold))
                   ],
@@ -237,112 +283,91 @@ class _ShopPageState extends State<ShopPage> {
                 const SizedBox(height: 10),
 
                 // recommend list view
-                StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection("Recommended")
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Column(
-                          children: [
-                            CarouselSlider.builder(
-                                itemCount: snapshot.data!.docs.length,
-                                itemBuilder: ((context, index, realIndex) {
-                                  final recommendedCoupon =
-                                      snapshot.data!.docs[index];
-                                  return GestureDetector(
-                                    onTap: () {
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return AlertDialog(
-                                              title: Text("Do you confirm?",
-                                                  style: GoogleFonts.montserrat(
-                                                      fontWeight:
-                                                          FontWeight.w600)),
-                                              content: Text(
-                                                  "confirm buying ${recommendedCoupon.data()["title"]}",
-                                                  style: GoogleFonts.montserrat(
-                                                      fontWeight:
-                                                          FontWeight.w600)),
-                                              actions: [
-                                                TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(context),
-                                                    child: Text("Cancel",
-                                                        style: GoogleFonts
-                                                            .montserrat(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600))),
-                                                TextButton(
-                                                    onPressed: () async {
-                                                      await buyRecommendedCoupon(
-                                                          recommendedCoupon.id);
-                                                    },
-                                                    child: Text("Confirm",
-                                                        style: GoogleFonts
-                                                            .montserrat(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                color:
-                                                                    ColorsAsset
-                                                                        .green)))
-                                              ],
-                                            );
-                                          });
-                                    },
-                                    child: MyRecommended(
-                                      title: recommendedCoupon["title"],
-                                      place: recommendedCoupon["place"],
-                                      type: recommendedCoupon["type"],
-                                      price:
-                                          recommendedCoupon["price"].toString(),
-                                    ),
-                                  );
-                                }),
-                                options: CarouselOptions(
-                                  height: 183,
-                                  autoPlay: true,
-                                  viewportFraction: 1,
-                                  autoPlayInterval: const Duration(seconds: 3),
-                                  onPageChanged: (index, reason) {
-                                    setState(() {
-                                      activeIndex = index;
-                                    });
-                                  },
-                                )),
-                            const SizedBox(height: 5),
+                Column(
+                  children: [
+                    CarouselSlider.builder(
+                        itemCount: recommended.length,
+                        itemBuilder: ((context, index, realIndex) {
+                          final recommendedCoupon = recommended[index];
+                          return GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Text(
+                                          AppLocale.doYouConfirm
+                                              .getString(context),
+                                          style: GoogleFonts.montserrat(
+                                              fontWeight: FontWeight.w600)),
+                                      content: Text(
+                                          "${AppLocale.confirmBuying.getString(context)} ${recommendedCoupon["title"]} ${AppLocale.questionMark.getString(context)}",
+                                          style: GoogleFonts.montserrat(
+                                              fontWeight: FontWeight.w600)),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                            child: Text(
+                                                AppLocale.cancel
+                                                    .getString(context),
+                                                style: GoogleFonts.montserrat(
+                                                    fontWeight:
+                                                        FontWeight.w600))),
+                                        TextButton(
+                                            onPressed: () async {
+                                              await buyRecommendedCoupon(
+                                                  recommendedCoupon);
+                                            },
+                                            child: Text(
+                                                AppLocale.confirm
+                                                    .getString(context),
+                                                style: GoogleFonts.montserrat(
+                                                    fontWeight: FontWeight.w600,
+                                                    color: ColorsAsset.green)))
+                                      ],
+                                    );
+                                  });
+                            },
+                            child: MyRecommended(
+                              title: recommendedCoupon["title"],
+                              place: recommendedCoupon["place"],
+                              type: recommendedCoupon["type"],
+                              price: recommendedCoupon["price"].toString(),
+                              image: recommendedCoupon["image"],
+                            ),
+                          );
+                        }),
+                        options: CarouselOptions(
+                          height: 183,
+                          autoPlay: true,
+                          viewportFraction: 1,
+                          autoPlayInterval: const Duration(seconds: 3),
+                          onPageChanged: (index, reason) {
+                            setState(() {
+                              activeIndex = index;
+                            });
+                          },
+                        )),
+                    const SizedBox(height: 5),
 
-                            // recommend slider
-                            buildIndicator(snapshot.data!.docs.length),
-                          ],
-                        );
-                      } else if (snapshot.hasError) {
-                        return Text(
-                          "error: ${snapshot.error}",
-                          style: GoogleFonts.montserrat(
-                              fontSize: 20, fontWeight: FontWeight.w600),
-                        );
-                      }
-                      return const Center(
-                          child: CircularProgressIndicator(
-                              color: ColorsAsset.green));
-                    }),
+                    // recommend slider
+                    buildIndicator(recommended.length),
+                  ],
+                ),
 
                 const SizedBox(height: 11),
 
                 // best deal text
                 Row(
                   children: [
-                    // recommend icon
+                    // best deal icon
                     const Icon(Icons.recommend_outlined, size: 24),
 
                     const SizedBox(width: 5),
 
-                    // recommend
-                    Text("Best Deal",
+                    // best deal
+                    Text(AppLocale.bestDeal.getString(context),
                         style: GoogleFonts.montserrat(
                             fontSize: 16, fontWeight: FontWeight.bold))
                   ],
@@ -351,83 +376,62 @@ class _ShopPageState extends State<ShopPage> {
                 const SizedBox(height: 10),
 
                 // best deal grid view
-                StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection("Coupons")
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        final coupons = snapshot.data!.docs;
-                        return Expanded(
-                          child: GridView.builder(
-                            itemCount: coupons.length,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    crossAxisSpacing: 21,
-                                    mainAxisSpacing: 19,
-                                    childAspectRatio: 0.68),
-                            itemBuilder: (context, index) {
-                              final coupon = coupons[index];
-                              return GestureDetector(
-                                onTap: () async {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          title: Text("Do you confirm?",
-                                              style: GoogleFonts.montserrat(
-                                                  fontWeight: FontWeight.w600)),
-                                          content: Text(
-                                              "confirm buying ${coupon["title"]}",
-                                              style: GoogleFonts.montserrat(
-                                                  fontWeight: FontWeight.w600)),
-                                          actions: [
-                                            TextButton(
-                                                onPressed: () =>
-                                                    Navigator.pop(context),
-                                                child: Text("Cancel",
-                                                    style:
-                                                        GoogleFonts.montserrat(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w600))),
-                                            TextButton(
-                                                onPressed: () async {
-                                                  await buyBestDealCoupon(
-                                                      coupon.id);
-                                                },
-                                                child: Text("Confirm",
-                                                    style:
-                                                        GoogleFonts.montserrat(
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            color: ColorsAsset
-                                                                .green)))
-                                          ],
-                                        );
-                                      });
-                                },
-                                child: MyBestDeal(
-                                  title: coupon["title"],
-                                  place: coupon["place"],
-                                  price: coupon["price"].toString(),
-                                  type: coupon["type"],
-                                ),
-                              );
-                            },
-                          ),
-                        );
-                      } else if (snapshot.hasError) {
-                        Text("error: ${snapshot.error}",
-                            style: GoogleFonts.montserrat(
-                                fontSize: 20, fontWeight: FontWeight.w600));
-                      }
-                      return const Center(
-                          child: CircularProgressIndicator(
-                              color: ColorsAsset.green));
-                    }),
-                const SizedBox(height: 19)
+                Expanded(
+                  child: GridView.builder(
+                    itemCount: bestDeal.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 21,
+                            mainAxisSpacing: 19,
+                            childAspectRatio: 0.68),
+                    itemBuilder: (context, index) {
+                      final coupon = bestDeal[index];
+                      return GestureDetector(
+                        onTap: () async {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text(
+                                      AppLocale.doYouConfirm.getString(context),
+                                      style: GoogleFonts.montserrat(
+                                          fontWeight: FontWeight.w600)),
+                                  content: Text(
+                                      "${AppLocale.confirmBuying.getString(context)} ${coupon["title"]} ${AppLocale.questionMark.getString(context)}",
+                                      style: GoogleFonts.montserrat(
+                                          fontWeight: FontWeight.w600)),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: Text(
+                                            AppLocale.cancel.getString(context),
+                                            style: GoogleFonts.montserrat(
+                                                fontWeight: FontWeight.w600))),
+                                    TextButton(
+                                        onPressed: () async {
+                                          await buyBestDealCoupon(coupon);
+                                        },
+                                        child: Text(
+                                            AppLocale.confirm
+                                                .getString(context),
+                                            style: GoogleFonts.montserrat(
+                                                fontWeight: FontWeight.w600,
+                                                color: ColorsAsset.green)))
+                                  ],
+                                );
+                              });
+                        },
+                        child: MyBestDeal(
+                            title: coupon["title"],
+                            place: coupon["place"],
+                            price: coupon["price"].toString(),
+                            type: coupon["type"],
+                            image: coupon["image"]),
+                      );
+                    },
+                  ),
+                )
               ],
             ),
           ),

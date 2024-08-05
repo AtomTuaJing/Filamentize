@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:filamentize2/assets/colors.dart';
+import 'package:filamentize2/main.dart';
 import 'package:filamentize2/pages/account_page.dart';
 import 'package:filamentize2/pages/home_page.dart';
 import 'package:filamentize2/pages/shop_page.dart';
 import 'package:filamentize2/services/filamentize_or_molding.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Navigation extends StatefulWidget {
@@ -15,6 +18,8 @@ class Navigation extends StatefulWidget {
 
 class _NavigationState extends State<Navigation> {
   int currentIndex = 0;
+
+  var currentUser = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {

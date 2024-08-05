@@ -6,7 +6,9 @@ import 'package:filamentize2/components/my_slider.dart';
 import 'package:filamentize2/components/my_temp.dart';
 import 'package:filamentize2/pages/can_filamentize_page.dart';
 import 'package:filamentize2/services/filamentizeData.dart';
+import 'package:filamentize2/services/languages.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -39,24 +41,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
   var selectedColor = "";
   String weight = "";
   String grindingState = "";
-  List<String> Options = [
-    "White",
-    "Black",
-    "Red",
-    "Green",
-    "Blue",
-    "Yellow",
-    "Cyan",
-    "Magenta",
-    "Purple",
-    "Brown",
-    "Orange",
-    "Gray",
-    "Lime Green",
-    "Navy Blue",
-    "Silver",
-    "Maroon"
-  ];
+  var Options;
 
   // text editing controllers
   var setTemp01Controller = TextEditingController();
@@ -64,6 +49,24 @@ class _HomePageConnectedState extends State<HomePageConnected> {
 
   @override
   void didChangeDependencies() {
+    Options = [
+      AppLocale.white.getString(context),
+      AppLocale.black.getString(context),
+      AppLocale.red.getString(context),
+      AppLocale.green.getString(context),
+      AppLocale.blue.getString(context),
+      AppLocale.yellow.getString(context),
+      AppLocale.cyan.getString(context),
+      AppLocale.magenta.getString(context),
+      AppLocale.purple.getString(context),
+      AppLocale.brown.getString(context),
+      AppLocale.orange.getString(context),
+      AppLocale.gray.getString(context),
+      AppLocale.limeGreen.getString(context),
+      AppLocale.navyBlue.getString(context),
+      AppLocale.silver.getString(context),
+      AppLocale.maroon.getString(context)
+    ];
     super.didChangeDependencies();
     if (context.watch<FilamentizeData>().filamentizeThree != null) {
       context.read<FilamentizeData>().filamentizeThree!.setNotifyValue(true);
@@ -185,7 +188,10 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                             width: 2),
 
                                                         // on/off text
-                                                        Text("Device On",
+                                                        Text(
+                                                            AppLocale.deviceOn
+                                                                .getString(
+                                                                    context),
                                                             style: GoogleFonts
                                                                 .montserrat(
                                                                     fontSize:
@@ -230,7 +236,10 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                             width: 2),
 
                                                         // on/off text
-                                                        Text("Device Off",
+                                                        Text(
+                                                            AppLocale.deviceOff
+                                                                .getString(
+                                                                    context),
                                                             style: GoogleFonts
                                                                 .montserrat(
                                                                     fontSize:
@@ -264,7 +273,8 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                           RichText(
                                               text: TextSpan(children: [
                                             TextSpan(
-                                                text: "selected color : ",
+                                                text:
+                                                    "${AppLocale.selectedColor.getString(context)} : ",
                                                 style: GoogleFonts.montserrat(
                                                     fontSize: 10,
                                                     fontWeight: FontWeight.w600,
@@ -349,7 +359,8 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                                 30),
                                                                         // temperature header
                                                                         Text(
-                                                                            "Temperature",
+                                                                            AppLocale.temperature.getString(
+                                                                                context),
                                                                             style:
                                                                                 GoogleFonts.montserrat(fontSize: 24, fontWeight: FontWeight.w600)),
 
@@ -369,7 +380,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                                 const MyIconButton(rectSize: 59, iconSize: 40, icon: Icons.thermostat),
 
                                                                                 // temperature text
-                                                                                Text("temperature", style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w600))
+                                                                                Text(AppLocale.temperature.getString(context), style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w600))
                                                                               ],
                                                                             ),
 
@@ -380,7 +391,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                               children: [
                                                                                 const SizedBox(height: 10),
                                                                                 // real time temp
-                                                                                MyTemp(rlTemp: temp02, setTemp: setTemp02),
+                                                                                MyTemp(rlTemp: temp02 * 4, setTemp: setTemp02),
 
                                                                                 // set temp button
                                                                                 Padding(
@@ -390,7 +401,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                                       showDialog(
                                                                                           context: context,
                                                                                           builder: (context) => AlertDialog(
-                                                                                                title: Text("Set Temperature", style: GoogleFonts.montserrat(fontWeight: FontWeight.w600)),
+                                                                                                title: Text(AppLocale.setTemp.getString(context), style: GoogleFonts.montserrat(fontWeight: FontWeight.w600)),
                                                                                                 content: TextField(
                                                                                                   controller: setTemp02Controller,
                                                                                                   style: GoogleFonts.montserrat(fontWeight: FontWeight.w600),
@@ -401,15 +412,16 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                                                       onPressed: () {
                                                                                                         Navigator.pop(context);
                                                                                                       },
-                                                                                                      child: Text("Cancel", style: GoogleFonts.montserrat(fontWeight: FontWeight.w600))),
+                                                                                                      child: Text(AppLocale.cancel.getString(context), style: GoogleFonts.montserrat(fontWeight: FontWeight.w600))),
                                                                                                   TextButton(
                                                                                                       onPressed: () async {
-                                                                                                        await context.read<FilamentizeData>().temp02!.write(utf8.encode(setTemp02Controller.text));
+                                                                                                        var temp = int.parse(setTemp02Controller.text) / 4;
+                                                                                                        await context.read<FilamentizeData>().temp02!.write(utf8.encode(temp.toString()));
                                                                                                         Navigator.pop(context);
                                                                                                         Navigator.pop(context);
                                                                                                         setTemp02Controller.clear();
                                                                                                       },
-                                                                                                      child: Text("OK", style: GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: ColorsAsset.green)))
+                                                                                                      child: Text(AppLocale.ok.getString(context), style: GoogleFonts.montserrat(fontWeight: FontWeight.w600, color: ColorsAsset.green)))
                                                                                                 ],
                                                                                               ));
                                                                                     },
@@ -422,7 +434,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                                           const Icon(Icons.settings_outlined),
 
                                                                                           // set text
-                                                                                          Text("Set", style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w600))
+                                                                                          Text(AppLocale.set.getString(context), style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w600))
                                                                                         ],
                                                                                       ),
                                                                                     ),
@@ -444,7 +456,10 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                           rectSize: 44,
                                                         ),
                                                       ),
-                                                      Text("Temperature",
+                                                      Text(
+                                                          AppLocale.temperature
+                                                              .getString(
+                                                                  context),
                                                           style: GoogleFonts
                                                               .montserrat(
                                                                   fontSize: 10,
@@ -470,7 +485,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                   .only(
                                                                   left: 20),
                                                           child: MyTemp(
-                                                            rlTemp: temp02,
+                                                            rlTemp: temp02 * 4,
                                                             setTemp: setTemp02,
                                                           ),
                                                         ),
@@ -480,7 +495,9 @@ class _HomePageConnectedState extends State<HomePageConnected> {
 
                                                         // temperature 1
                                                         Text(
-                                                          "temperature",
+                                                          AppLocale.temperature
+                                                              .getString(
+                                                                  context),
                                                           style: GoogleFonts
                                                               .montserrat(
                                                                   fontSize: 10,
@@ -570,7 +587,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                               height: 30),
                                                                           // cooling fans
                                                                           Text(
-                                                                              "Cooling Fans",
+                                                                              AppLocale.coolingFan.getString(context),
                                                                               style: GoogleFonts.montserrat(fontSize: 24, fontWeight: FontWeight.w600)),
                                                                           const SizedBox(
                                                                               height: 38),
@@ -595,7 +612,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                                 Column(
                                                                                   children: [
                                                                                     const MyIconButton(rectSize: 50, iconSize: 35, icon: Icons.wind_power),
-                                                                                    Text("Cooling Fan 1", style: GoogleFonts.montserrat(fontSize: 14, fontWeight: FontWeight.w600))
+                                                                                    Text("${AppLocale.fan.getString(context)} 1", style: GoogleFonts.montserrat(fontSize: 14, fontWeight: FontWeight.w600))
                                                                                   ],
                                                                                 ),
 
@@ -653,7 +670,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                                 Column(
                                                                                   children: [
                                                                                     const MyIconButton(rectSize: 50, iconSize: 35, icon: Icons.wind_power),
-                                                                                    Text("Cooling Fan 2", style: GoogleFonts.montserrat(fontSize: 14, fontWeight: FontWeight.w600))
+                                                                                    Text("${AppLocale.fan.getString(context)} 2", style: GoogleFonts.montserrat(fontSize: 14, fontWeight: FontWeight.w600))
                                                                                   ],
                                                                                 ),
                                                                               ],
@@ -671,7 +688,10 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                               icon: Icons
                                                                   .wind_power),
                                                         ),
-                                                        Text("Cooling Fans",
+                                                        Text(
+                                                            AppLocale.coolingFan
+                                                                .getString(
+                                                                    context),
                                                             style: GoogleFonts
                                                                 .montserrat(
                                                                     fontSize:
@@ -701,7 +721,8 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                             height: 5),
 
                                                         // fan 1 text
-                                                        Text("fan 1",
+                                                        Text(
+                                                            "${AppLocale.fan.getString(context)} 1",
                                                             style: GoogleFonts
                                                                 .montserrat(
                                                                     fontSize:
@@ -731,7 +752,8 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                             height: 5),
 
                                                         // fan 2 text
-                                                        Text("fan 2",
+                                                        Text(
+                                                            "${AppLocale.fan.getString(context)} 2",
                                                             style: GoogleFonts
                                                                 .montserrat(
                                                                     fontSize:
@@ -812,7 +834,10 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                           30),
                                                                   // Speed Mode
                                                                   Text(
-                                                                      "Speed Mode",
+                                                                      AppLocale
+                                                                          .speedMode
+                                                                          .getString(
+                                                                              context),
                                                                       style: GoogleFonts.montserrat(
                                                                           fontSize:
                                                                               24,
@@ -839,7 +864,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                               icon: Icons.motion_photos_on_outlined),
                                                                           // name
                                                                           Text(
-                                                                              "Spool Motor",
+                                                                              AppLocale.spoolMotor.getString(context),
                                                                               style: GoogleFonts.montserrat(fontSize: 14, fontWeight: FontWeight.w600))
                                                                         ],
                                                                       ),
@@ -897,7 +922,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                               icon: Icons.present_to_all_sharp),
                                                                           // name
                                                                           Text(
-                                                                              "Extruder",
+                                                                              AppLocale.extruder.getString(context),
                                                                               style: GoogleFonts.montserrat(fontSize: 14, fontWeight: FontWeight.w600))
                                                                         ],
                                                                       ),
@@ -955,7 +980,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                               icon: Icons.cyclone),
                                                                           // name
                                                                           Text(
-                                                                              "Stepper",
+                                                                              AppLocale.stepper.getString(context),
                                                                               style: GoogleFonts.montserrat(fontSize: 14, fontWeight: FontWeight.w600))
                                                                         ],
                                                                       ),
@@ -1017,7 +1042,7 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                               icon: Icons.vibration_outlined),
                                                                           // name
                                                                           Text(
-                                                                              "Vibrator",
+                                                                              AppLocale.vibrator.getString(context),
                                                                               style: GoogleFonts.montserrat(fontSize: 14, fontWeight: FontWeight.w600))
                                                                         ],
                                                                       ),
@@ -1068,7 +1093,9 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                     iconSize: 30,
                                                     icon: Icons.speed),
                                               ),
-                                              Text("Speed",
+                                              Text(
+                                                  AppLocale.speed
+                                                      .getString(context),
                                                   style: GoogleFonts.montserrat(
                                                       fontSize: 10,
                                                       fontWeight:
@@ -1093,7 +1120,9 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                     .bold)),
 
                                                 // spool motor
-                                                Text("spool motor",
+                                                Text(
+                                                    AppLocale.spoolMotor
+                                                        .getString(context),
                                                     style:
                                                         GoogleFonts.montserrat(
                                                             fontSize: 10,
@@ -1120,8 +1149,10 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                 FontWeight
                                                                     .bold)),
 
-                                                // spool motor
-                                                Text("extruder",
+                                                // extruder
+                                                Text(
+                                                    AppLocale.extruder
+                                                        .getString(context),
                                                     style:
                                                         GoogleFonts.montserrat(
                                                             fontSize: 10,
@@ -1148,8 +1179,10 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                                 FontWeight
                                                                     .bold)),
 
-                                                // spool motor
-                                                Text("stepper",
+                                                // stepper
+                                                Text(
+                                                    AppLocale.stepper
+                                                        .getString(context),
                                                     style:
                                                         GoogleFonts.montserrat(
                                                             fontSize: 10,
@@ -1212,7 +1245,10 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                           ),
 
                                                           // stop text
-                                                          Text("Stop",
+                                                          Text(
+                                                              AppLocale.stop
+                                                                  .getString(
+                                                                      context),
                                                               style: GoogleFonts.montserrat(
                                                                   fontSize: 16,
                                                                   fontWeight:
@@ -1254,8 +1290,11 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                                             size: 28,
                                                           ),
 
-                                                          // stop text
-                                                          Text("Start",
+                                                          // start text
+                                                          Text(
+                                                              AppLocale.start
+                                                                  .getString(
+                                                                      context),
                                                               style: GoogleFonts.montserrat(
                                                                   fontSize: 16,
                                                                   fontWeight:
@@ -1286,7 +1325,8 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                             PopupMenuItem(
                                               value: "switch color",
                                               child: Text(
-                                                "Select Color",
+                                                AppLocale.selectedColor
+                                                    .getString(context),
                                                 style: GoogleFonts.montserrat(
                                                     fontWeight: FontWeight.w600,
                                                     color: ColorsAsset.white),
@@ -1295,7 +1335,8 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                             PopupMenuItem(
                                               value: "Switch Mode",
                                               child: Text(
-                                                "Switch Mode",
+                                                AppLocale.switchMode
+                                                    .getString(context),
                                                 style: GoogleFonts.montserrat(
                                                     fontWeight: FontWeight.w600,
                                                     color: ColorsAsset.white),
@@ -1304,7 +1345,8 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                             PopupMenuItem(
                                               value: "Start Grinding",
                                               child: Text(
-                                                "Start Grinding",
+                                                AppLocale.startStopGrinding
+                                                    .getString(context),
                                                 style: GoogleFonts.montserrat(
                                                     fontWeight: FontWeight.w600,
                                                     color: ColorsAsset.white),
@@ -1313,7 +1355,8 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                             PopupMenuItem(
                                               value: "Plastic Checking",
                                               child: Text(
-                                                "Plastic Checking",
+                                                AppLocale.plasticChecking
+                                                    .getString(context),
                                                 style: GoogleFonts.montserrat(
                                                     fontWeight: FontWeight.w600,
                                                     color: ColorsAsset.white),
@@ -1322,7 +1365,8 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                             PopupMenuItem(
                                               value: "Reset Spool",
                                               child: Text(
-                                                "Reset Spool",
+                                                AppLocale.resetSpool
+                                                    .getString(context),
                                                 style: GoogleFonts.montserrat(
                                                     fontWeight: FontWeight.w600,
                                                     color: ColorsAsset.white),
@@ -1371,345 +1415,379 @@ class _HomePageConnectedState extends State<HomePageConnected> {
                                             if (newValue == "switch color") {
                                               showDialog(
                                                   context: context,
-                                                  builder: (context) =>
-                                                      AlertDialog(
-                                                        title: Text(
-                                                            "Select Color",
-                                                            style: GoogleFonts
-                                                                .montserrat(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600)),
-                                                        content: StatefulBuilder(
-                                                            builder: (context,
-                                                                setState) {
-                                                          return SingleChildScrollView(
-                                                            child: Column(
-                                                              children: [
-                                                                RadioListTile(
-                                                                    title: Text(
-                                                                        "White",
-                                                                        style: GoogleFonts.montserrat(
-                                                                            fontWeight: FontWeight
-                                                                                .w600)),
-                                                                    value: "0",
-                                                                    groupValue:
-                                                                        selectedColor,
-                                                                    onChanged:
-                                                                        (value) {
-                                                                      setState(
-                                                                          () {
-                                                                        selectedColor =
-                                                                            value!;
-                                                                      });
-                                                                    }),
-                                                                RadioListTile(
-                                                                    title: Text(
-                                                                        "Black",
-                                                                        style: GoogleFonts.montserrat(
-                                                                            fontWeight: FontWeight
-                                                                                .w600)),
-                                                                    value: "1",
-                                                                    groupValue:
-                                                                        selectedColor,
-                                                                    onChanged:
-                                                                        (value) {
-                                                                      setState(
-                                                                          () {
-                                                                        selectedColor =
-                                                                            value!;
-                                                                      });
-                                                                    }),
-                                                                RadioListTile(
-                                                                    title: Text(
-                                                                        "Red",
-                                                                        style: GoogleFonts.montserrat(
-                                                                            fontWeight: FontWeight
-                                                                                .w600)),
-                                                                    value: "2",
-                                                                    groupValue:
-                                                                        selectedColor,
-                                                                    onChanged:
-                                                                        (value) {
-                                                                      setState(
-                                                                          () {
-                                                                        selectedColor =
-                                                                            value!;
-                                                                      });
-                                                                    }),
-                                                                RadioListTile(
-                                                                    title: Text(
-                                                                        "Green",
-                                                                        style: GoogleFonts.montserrat(
-                                                                            fontWeight: FontWeight
-                                                                                .w600)),
-                                                                    value: "3",
-                                                                    groupValue:
-                                                                        selectedColor,
-                                                                    onChanged:
-                                                                        (value) {
-                                                                      setState(
-                                                                          () {
-                                                                        selectedColor =
-                                                                            value!;
-                                                                      });
-                                                                    }),
-                                                                RadioListTile(
-                                                                    title: Text(
-                                                                        "Blue",
-                                                                        style: GoogleFonts.montserrat(
-                                                                            fontWeight: FontWeight
-                                                                                .w600)),
-                                                                    value: "4",
-                                                                    groupValue:
-                                                                        selectedColor,
-                                                                    onChanged:
-                                                                        (value) {
-                                                                      setState(
-                                                                          () {
-                                                                        selectedColor =
-                                                                            value!;
-                                                                      });
-                                                                    }),
-                                                                RadioListTile(
-                                                                    title: Text(
-                                                                        "Yellow",
-                                                                        style: GoogleFonts.montserrat(
-                                                                            fontWeight: FontWeight
-                                                                                .w600)),
-                                                                    value: "5",
-                                                                    groupValue:
-                                                                        selectedColor,
-                                                                    onChanged:
-                                                                        (value) {
-                                                                      setState(
-                                                                          () {
-                                                                        selectedColor =
-                                                                            value!;
-                                                                      });
-                                                                    }),
-                                                                RadioListTile(
-                                                                    title: Text(
-                                                                        "Cyan",
-                                                                        style: GoogleFonts.montserrat(
-                                                                            fontWeight: FontWeight
-                                                                                .w600)),
-                                                                    value: "6",
-                                                                    groupValue:
-                                                                        selectedColor,
-                                                                    onChanged:
-                                                                        (value) {
-                                                                      setState(
-                                                                          () {
-                                                                        selectedColor =
-                                                                            value!;
-                                                                      });
-                                                                    }),
-                                                                RadioListTile(
-                                                                    title: Text(
-                                                                        "Magenta",
-                                                                        style: GoogleFonts.montserrat(
-                                                                            fontWeight: FontWeight
-                                                                                .w600)),
-                                                                    value: "7",
-                                                                    groupValue:
-                                                                        selectedColor,
-                                                                    onChanged:
-                                                                        (value) {
-                                                                      setState(
-                                                                          () {
-                                                                        selectedColor =
-                                                                            value!;
-                                                                      });
-                                                                    }),
-                                                                RadioListTile(
-                                                                    title: Text(
-                                                                        "Purple",
-                                                                        style: GoogleFonts.montserrat(
-                                                                            fontWeight: FontWeight
-                                                                                .w600)),
-                                                                    value: "8",
-                                                                    groupValue:
-                                                                        selectedColor,
-                                                                    onChanged:
-                                                                        (value) {
-                                                                      setState(
-                                                                          () {
-                                                                        selectedColor =
-                                                                            value!;
-                                                                      });
-                                                                    }),
-                                                                RadioListTile(
-                                                                    title: Text(
-                                                                        "Brown",
-                                                                        style: GoogleFonts.montserrat(
-                                                                            fontWeight: FontWeight
-                                                                                .w600)),
-                                                                    value: "9",
-                                                                    groupValue:
-                                                                        selectedColor,
-                                                                    onChanged:
-                                                                        (value) {
-                                                                      setState(
-                                                                          () {
-                                                                        selectedColor =
-                                                                            value!;
-                                                                      });
-                                                                    }),
-                                                                RadioListTile(
-                                                                    title: Text(
-                                                                        "Orange",
-                                                                        style: GoogleFonts.montserrat(
-                                                                            fontWeight: FontWeight
-                                                                                .w600)),
-                                                                    value: "10",
-                                                                    groupValue:
-                                                                        selectedColor,
-                                                                    onChanged:
-                                                                        (value) {
-                                                                      setState(
-                                                                          () {
-                                                                        selectedColor =
-                                                                            value!;
-                                                                      });
-                                                                    }),
-                                                                RadioListTile(
-                                                                    title: Text(
-                                                                        "Gray",
-                                                                        style: GoogleFonts.montserrat(
-                                                                            fontWeight: FontWeight
-                                                                                .w600)),
-                                                                    value: "11",
-                                                                    groupValue:
-                                                                        selectedColor,
-                                                                    onChanged:
-                                                                        (value) {
-                                                                      setState(
-                                                                          () {
-                                                                        selectedColor =
-                                                                            value!;
-                                                                      });
-                                                                    }),
-                                                                RadioListTile(
-                                                                    title: Text(
-                                                                        "Lime Green",
-                                                                        style: GoogleFonts.montserrat(
-                                                                            fontWeight: FontWeight
-                                                                                .w600)),
-                                                                    value: "12",
-                                                                    groupValue:
-                                                                        selectedColor,
-                                                                    onChanged:
-                                                                        (value) {
-                                                                      setState(
-                                                                          () {
-                                                                        selectedColor =
-                                                                            value!;
-                                                                      });
-                                                                    }),
-                                                                RadioListTile(
-                                                                    title: Text(
-                                                                        "Navy Blue",
-                                                                        style: GoogleFonts.montserrat(
-                                                                            fontWeight: FontWeight
-                                                                                .w600)),
-                                                                    value: "13",
-                                                                    groupValue:
-                                                                        selectedColor,
-                                                                    onChanged:
-                                                                        (value) {
-                                                                      setState(
-                                                                          () {
-                                                                        selectedColor =
-                                                                            value!;
-                                                                      });
-                                                                    }),
-                                                                RadioListTile(
-                                                                    title: Text(
-                                                                        "Silver",
-                                                                        style: GoogleFonts.montserrat(
-                                                                            fontWeight: FontWeight
-                                                                                .w600)),
-                                                                    value: "14",
-                                                                    groupValue:
-                                                                        selectedColor,
-                                                                    onChanged:
-                                                                        (value) {
-                                                                      setState(
-                                                                          () {
-                                                                        selectedColor =
-                                                                            value!;
-                                                                      });
-                                                                    }),
-                                                                RadioListTile(
-                                                                    title: Text(
-                                                                        "Maroon",
-                                                                        style: GoogleFonts.montserrat(
-                                                                            fontWeight: FontWeight
-                                                                                .w600)),
-                                                                    value: "15",
-                                                                    groupValue:
-                                                                        selectedColor,
-                                                                    onChanged:
-                                                                        (value) {
-                                                                      setState(
-                                                                          () {
-                                                                        selectedColor =
-                                                                            value!;
-                                                                      });
-                                                                    }),
-                                                              ],
-                                                            ),
-                                                          );
-                                                        }),
-                                                        actions: [
-                                                          TextButton(
-                                                              onPressed: () {
-                                                                Navigator.pop(
-                                                                    context);
-                                                              },
-                                                              child: Text(
-                                                                  "Set Color",
-                                                                  style: GoogleFonts.montserrat(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600))),
-                                                          TextButton(
-                                                              onPressed:
-                                                                  () async {
-                                                                await context
-                                                                    .read<
-                                                                        FilamentizeData>()
-                                                                    .color!
-                                                                    .write(utf8
-                                                                        .encode(
-                                                                            selectedColor));
-                                                                await Future.delayed(
-                                                                    const Duration(
-                                                                        seconds:
-                                                                            1),
-                                                                    () {
-                                                                  context
-                                                                      .read<
-                                                                          FilamentizeData>()
-                                                                      .color!
-                                                                      .write(utf8
-                                                                          .encode(
-                                                                              "0"));
-                                                                });
-                                                                Navigator.pop(
-                                                                    context);
-                                                              },
-                                                              child: Text(
-                                                                  "Shoot Color",
-                                                                  style: GoogleFonts.montserrat(
-                                                                      fontWeight:
-                                                                          FontWeight
+                                                  builder:
+                                                      (context) => AlertDialog(
+                                                            title: Text(
+                                                                "Select Color",
+                                                                style: GoogleFonts
+                                                                    .montserrat(
+                                                                        fontWeight:
+                                                                            FontWeight.w600)),
+                                                            content: StatefulBuilder(
+                                                                builder: (context,
+                                                                    setState) {
+                                                              return SingleChildScrollView(
+                                                                child: Column(
+                                                                  children: [
+                                                                    RadioListTile(
+                                                                        title: Text(
+                                                                            AppLocale.white.getString(
+                                                                                context),
+                                                                            style: GoogleFonts.montserrat(
+                                                                                fontWeight: FontWeight
+                                                                                    .w600)),
+                                                                        value:
+                                                                            "0",
+                                                                        groupValue:
+                                                                            selectedColor,
+                                                                        onChanged:
+                                                                            (value) {
+                                                                          setState(
+                                                                              () {
+                                                                            selectedColor =
+                                                                                value!;
+                                                                          });
+                                                                        }),
+                                                                    RadioListTile(
+                                                                        title: Text(
+                                                                            AppLocale.black.getString(
+                                                                                context),
+                                                                            style: GoogleFonts.montserrat(
+                                                                                fontWeight: FontWeight
+                                                                                    .w600)),
+                                                                        value:
+                                                                            "1",
+                                                                        groupValue:
+                                                                            selectedColor,
+                                                                        onChanged:
+                                                                            (value) {
+                                                                          setState(
+                                                                              () {
+                                                                            selectedColor =
+                                                                                value!;
+                                                                          });
+                                                                        }),
+                                                                    RadioListTile(
+                                                                        title: Text(
+                                                                            AppLocale.red.getString(
+                                                                                context),
+                                                                            style: GoogleFonts.montserrat(
+                                                                                fontWeight: FontWeight
+                                                                                    .w600)),
+                                                                        value:
+                                                                            "2",
+                                                                        groupValue:
+                                                                            selectedColor,
+                                                                        onChanged:
+                                                                            (value) {
+                                                                          setState(
+                                                                              () {
+                                                                            selectedColor =
+                                                                                value!;
+                                                                          });
+                                                                        }),
+                                                                    RadioListTile(
+                                                                        title: Text(
+                                                                            AppLocale.green.getString(
+                                                                                context),
+                                                                            style: GoogleFonts.montserrat(
+                                                                                fontWeight: FontWeight
+                                                                                    .w600)),
+                                                                        value:
+                                                                            "3",
+                                                                        groupValue:
+                                                                            selectedColor,
+                                                                        onChanged:
+                                                                            (value) {
+                                                                          setState(
+                                                                              () {
+                                                                            selectedColor =
+                                                                                value!;
+                                                                          });
+                                                                        }),
+                                                                    RadioListTile(
+                                                                        title: Text(
+                                                                            AppLocale.blue.getString(
+                                                                                context),
+                                                                            style: GoogleFonts.montserrat(
+                                                                                fontWeight: FontWeight
+                                                                                    .w600)),
+                                                                        value:
+                                                                            "4",
+                                                                        groupValue:
+                                                                            selectedColor,
+                                                                        onChanged:
+                                                                            (value) {
+                                                                          setState(
+                                                                              () {
+                                                                            selectedColor =
+                                                                                value!;
+                                                                          });
+                                                                        }),
+                                                                    RadioListTile(
+                                                                        title: Text(
+                                                                            AppLocale.yellow.getString(
+                                                                                context),
+                                                                            style: GoogleFonts.montserrat(
+                                                                                fontWeight: FontWeight
+                                                                                    .w600)),
+                                                                        value:
+                                                                            "5",
+                                                                        groupValue:
+                                                                            selectedColor,
+                                                                        onChanged:
+                                                                            (value) {
+                                                                          setState(
+                                                                              () {
+                                                                            selectedColor =
+                                                                                value!;
+                                                                          });
+                                                                        }),
+                                                                    RadioListTile(
+                                                                        title: Text(
+                                                                            AppLocale.cyan.getString(
+                                                                                context),
+                                                                            style: GoogleFonts.montserrat(
+                                                                                fontWeight: FontWeight
+                                                                                    .w600)),
+                                                                        value:
+                                                                            "6",
+                                                                        groupValue:
+                                                                            selectedColor,
+                                                                        onChanged:
+                                                                            (value) {
+                                                                          setState(
+                                                                              () {
+                                                                            selectedColor =
+                                                                                value!;
+                                                                          });
+                                                                        }),
+                                                                    RadioListTile(
+                                                                        title: Text(
+                                                                            AppLocale.magenta.getString(
+                                                                                context),
+                                                                            style: GoogleFonts.montserrat(
+                                                                                fontWeight: FontWeight
+                                                                                    .w600)),
+                                                                        value:
+                                                                            "7",
+                                                                        groupValue:
+                                                                            selectedColor,
+                                                                        onChanged:
+                                                                            (value) {
+                                                                          setState(
+                                                                              () {
+                                                                            selectedColor =
+                                                                                value!;
+                                                                          });
+                                                                        }),
+                                                                    RadioListTile(
+                                                                        title: Text(
+                                                                            AppLocale.purple.getString(
+                                                                                context),
+                                                                            style: GoogleFonts.montserrat(
+                                                                                fontWeight: FontWeight
+                                                                                    .w600)),
+                                                                        value:
+                                                                            "8",
+                                                                        groupValue:
+                                                                            selectedColor,
+                                                                        onChanged:
+                                                                            (value) {
+                                                                          setState(
+                                                                              () {
+                                                                            selectedColor =
+                                                                                value!;
+                                                                          });
+                                                                        }),
+                                                                    RadioListTile(
+                                                                        title: Text(
+                                                                            AppLocale.brown.getString(
+                                                                                context),
+                                                                            style: GoogleFonts.montserrat(
+                                                                                fontWeight: FontWeight
+                                                                                    .w600)),
+                                                                        value:
+                                                                            "9",
+                                                                        groupValue:
+                                                                            selectedColor,
+                                                                        onChanged:
+                                                                            (value) {
+                                                                          setState(
+                                                                              () {
+                                                                            selectedColor =
+                                                                                value!;
+                                                                          });
+                                                                        }),
+                                                                    RadioListTile(
+                                                                        title: Text(
+                                                                            AppLocale.orange.getString(
+                                                                                context),
+                                                                            style: GoogleFonts.montserrat(
+                                                                                fontWeight: FontWeight
+                                                                                    .w600)),
+                                                                        value:
+                                                                            "10",
+                                                                        groupValue:
+                                                                            selectedColor,
+                                                                        onChanged:
+                                                                            (value) {
+                                                                          setState(
+                                                                              () {
+                                                                            selectedColor =
+                                                                                value!;
+                                                                          });
+                                                                        }),
+                                                                    RadioListTile(
+                                                                        title: Text(
+                                                                            AppLocale.gray.getString(
+                                                                                context),
+                                                                            style: GoogleFonts.montserrat(
+                                                                                fontWeight: FontWeight
+                                                                                    .w600)),
+                                                                        value:
+                                                                            "11",
+                                                                        groupValue:
+                                                                            selectedColor,
+                                                                        onChanged:
+                                                                            (value) {
+                                                                          setState(
+                                                                              () {
+                                                                            selectedColor =
+                                                                                value!;
+                                                                          });
+                                                                        }),
+                                                                    RadioListTile(
+                                                                        title: Text(
+                                                                            AppLocale.limeGreen.getString(
+                                                                                context),
+                                                                            style: GoogleFonts.montserrat(
+                                                                                fontWeight: FontWeight
+                                                                                    .w600)),
+                                                                        value:
+                                                                            "12",
+                                                                        groupValue:
+                                                                            selectedColor,
+                                                                        onChanged:
+                                                                            (value) {
+                                                                          setState(
+                                                                              () {
+                                                                            selectedColor =
+                                                                                value!;
+                                                                          });
+                                                                        }),
+                                                                    RadioListTile(
+                                                                        title: Text(
+                                                                            AppLocale.navyBlue.getString(
+                                                                                context),
+                                                                            style: GoogleFonts.montserrat(
+                                                                                fontWeight: FontWeight
+                                                                                    .w600)),
+                                                                        value:
+                                                                            "13",
+                                                                        groupValue:
+                                                                            selectedColor,
+                                                                        onChanged:
+                                                                            (value) {
+                                                                          setState(
+                                                                              () {
+                                                                            selectedColor =
+                                                                                value!;
+                                                                          });
+                                                                        }),
+                                                                    RadioListTile(
+                                                                        title: Text(
+                                                                            AppLocale.silver.getString(
+                                                                                context),
+                                                                            style: GoogleFonts.montserrat(
+                                                                                fontWeight: FontWeight
+                                                                                    .w600)),
+                                                                        value:
+                                                                            "14",
+                                                                        groupValue:
+                                                                            selectedColor,
+                                                                        onChanged:
+                                                                            (value) {
+                                                                          setState(
+                                                                              () {
+                                                                            selectedColor =
+                                                                                value!;
+                                                                          });
+                                                                        }),
+                                                                    RadioListTile(
+                                                                        title: Text(
+                                                                            AppLocale.maroon.getString(
+                                                                                context),
+                                                                            style: GoogleFonts.montserrat(
+                                                                                fontWeight: FontWeight
+                                                                                    .w600)),
+                                                                        value:
+                                                                            "15",
+                                                                        groupValue:
+                                                                            selectedColor,
+                                                                        onChanged:
+                                                                            (value) {
+                                                                          setState(
+                                                                              () {
+                                                                            selectedColor =
+                                                                                value!;
+                                                                          });
+                                                                        }),
+                                                                  ],
+                                                                ),
+                                                              );
+                                                            }),
+                                                            actions: [
+                                                              TextButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  child: Text(
+                                                                      AppLocale
+                                                                          .selectedColor
+                                                                          .getString(
+                                                                              context),
+                                                                      style: GoogleFonts.montserrat(
+                                                                          fontWeight:
+                                                                              FontWeight.w600))),
+                                                              TextButton(
+                                                                  onPressed:
+                                                                      () async {
+                                                                    await context
+                                                                        .read<
+                                                                            FilamentizeData>()
+                                                                        .color!
+                                                                        .write(utf8
+                                                                            .encode(selectedColor));
+                                                                    await Future.delayed(
+                                                                        const Duration(
+                                                                            seconds:
+                                                                                1),
+                                                                        () {
+                                                                      context
+                                                                          .read<
+                                                                              FilamentizeData>()
+                                                                          .color!
+                                                                          .write(
+                                                                              utf8.encode("0"));
+                                                                    });
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  child: Text(
+                                                                      AppLocale
+                                                                          .shootColor
+                                                                          .getString(
+                                                                              context),
+                                                                      style: GoogleFonts.montserrat(
+                                                                          fontWeight: FontWeight
                                                                               .w600,
-                                                                      color: ColorsAsset
-                                                                          .green)))
-                                                        ],
-                                                      ));
+                                                                          color:
+                                                                              ColorsAsset.green)))
+                                                            ],
+                                                          ));
                                             }
                                           },
                                         ),
