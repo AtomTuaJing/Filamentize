@@ -53,6 +53,7 @@ dependencies:
   image_picker: ^1.1.2
   firebase_storage: ^11.7.7
   flutter_launcher_icons: ^0.13.1
+  flame: ^1.17.0
 
 dev_dependencies:
   flutter_test:
@@ -85,6 +86,7 @@ flutter:
   assets:
     - images/
     - images/icons/
+    - assets/images/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
@@ -99,7 +101,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
+  fonts:
+    - family: Game
+      fonts:
+        - asset: assets/fonts/Game.ttf
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

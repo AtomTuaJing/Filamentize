@@ -1,7 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:filamentize2/assets/colors.dart';
-import 'package:filamentize2/main.dart';
 import 'package:filamentize2/pages/account_page.dart';
+import 'package:filamentize2/pages/game_page.dart';
 import 'package:filamentize2/pages/home_page.dart';
 import 'package:filamentize2/pages/shop_page.dart';
 import 'package:filamentize2/services/filamentize_or_molding.dart';
@@ -26,6 +25,7 @@ class _NavigationState extends State<Navigation> {
     List<Widget> tabs = [
       widget.connectionState ? const FilamentizeOrMolding() : const HomePage(),
       const ShopPage(),
+      GamePage(),
       const AccountPage()
     ];
     return Scaffold(
@@ -36,11 +36,14 @@ class _NavigationState extends State<Navigation> {
         showUnselectedLabels: false,
         iconSize: 30,
         selectedIconTheme: const IconThemeData(color: ColorsAsset.green),
+        unselectedIconTheme: const IconThemeData(color: ColorsAsset.littleGrey),
         backgroundColor: ColorsAsset.white,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.apps), label: "Apps"),
           BottomNavigationBarItem(
               icon: Icon(Icons.shopping_bag_outlined), label: "Shop"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.sports_esports_outlined), label: "Game"),
           BottomNavigationBarItem(
               icon: Icon(Icons.person_outline), label: "Person")
         ],
