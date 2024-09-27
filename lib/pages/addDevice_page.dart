@@ -54,7 +54,7 @@ class _AddDevicePageState extends State<AddDevicePage> {
         FlutterBluePlus.onScanResults.listen((results) {
           if (results.isNotEmpty) {
             var result = results.last;
-            if (result.advertisementData.advName.contains("YedHod")) {
+            if (result.advertisementData.advName.contains("Filamentize")) {
               Navigator.push(
                   context,
                   MaterialPageRoute(

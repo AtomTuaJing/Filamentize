@@ -45,7 +45,9 @@ class _SignUpPageState extends State<SignUpPage> {
         "wallet": 0,
         "language": "en",
         "level": "rookie",
-        "profile": ""
+        "profile": "",
+        "recycled_total": 0,
+        "bottle_recycled": 0
       });
 
       Navigator.pop(context);

@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:filamentize2/assets/colors.dart';
-import 'package:filamentize2/components/my_button.dart';
 import 'package:filamentize2/components/my_iconbutton.dart';
 import 'package:filamentize2/components/my_molding.dart';
 import 'package:filamentize2/components/my_slider.dart';
@@ -10,13 +8,9 @@ import 'package:filamentize2/components/my_temp.dart';
 import 'package:filamentize2/services/filamentizeData.dart';
 import 'package:filamentize2/services/languages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_localization/flutter_localization.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:popover/popover.dart';
 import 'package:provider/provider.dart';
 
 class HomePageConnectedMo extends StatefulWidget {
@@ -482,17 +476,6 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                                             ],
                                                                           ),
 
-                                                                          // spool motor
-                                                                          Column(
-                                                                            children: [
-                                                                              // spool motor percent
-                                                                              Text("${spoolMotor.round()}%", style: GoogleFonts.montserrat(fontSize: 24, fontWeight: FontWeight.bold)),
-
-                                                                              // spool motor text
-                                                                              Text(AppLocale.spoolMotor.getString(context), style: GoogleFonts.montserrat(fontSize: 11, fontWeight: FontWeight.w600))
-                                                                            ],
-                                                                          ),
-
                                                                           // extruder
                                                                           Column(
                                                                             children: [
@@ -511,7 +494,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                                               Text("${stepper.round()}%", style: GoogleFonts.montserrat(fontSize: 24, fontWeight: FontWeight.bold)),
 
                                                                               // stepper text
-                                                                              Text(AppLocale.stepper.getString(context), style: GoogleFonts.montserrat(fontSize: 11, fontWeight: FontWeight.w600))
+                                                                              Text("Base", style: GoogleFonts.montserrat(fontSize: 11, fontWeight: FontWeight.w600))
                                                                             ],
                                                                           ),
                                                                         ],
@@ -755,8 +738,7 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                             TextEditingController();
                                                         final plasticUsageController =
                                                             TextEditingController();
-                                                        var plasticType =
-                                                            "PETE";
+                                                        var plasticType = "PET";
                                                         showDialog(
                                                             context: context,
                                                             builder:
@@ -816,12 +798,8 @@ class _HomePageConnectedMoState extends State<HomePageConnectedMo> {
                                                                                     DropdownButton(
                                                                                         value: plasticType,
                                                                                         items: [
-                                                                                          DropdownMenuItem(value: "PETE", child: Text("PETE", style: GoogleFonts.montserrat(fontWeight: FontWeight.w600))),
-                                                                                          DropdownMenuItem(value: "HDPE", child: Text("HDPE", style: GoogleFonts.montserrat(fontWeight: FontWeight.w600))),
-                                                                                          DropdownMenuItem(value: "PVC", child: Text("PVC", style: GoogleFonts.montserrat(fontWeight: FontWeight.w600))),
-                                                                                          DropdownMenuItem(value: "LDPE", child: Text("LDPE", style: GoogleFonts.montserrat(fontWeight: FontWeight.w600))),
-                                                                                          DropdownMenuItem(value: "PP", child: Text("PP", style: GoogleFonts.montserrat(fontWeight: FontWeight.w600))),
-                                                                                          DropdownMenuItem(value: "PS", child: Text("PETE", style: GoogleFonts.montserrat(fontWeight: FontWeight.w600))),
+                                                                                          DropdownMenuItem(value: "PET", child: Text("PET", style: GoogleFonts.montserrat(fontWeight: FontWeight.w600))),
+                                                                                          DropdownMenuItem(value: "PLA", child: Text("PLA", style: GoogleFonts.montserrat(fontWeight: FontWeight.w600))),
                                                                                         ],
                                                                                         onChanged: (String? newValue) {
                                                                                           setState(() {
